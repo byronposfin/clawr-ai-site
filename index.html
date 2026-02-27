@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clawr.ai — AI Agents That Grip Your Business</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap');
+:root{--bg-dark:#0A0A0F;--bg-card:#12121A;--bg-card-hover:#1A1A25;--accent-red:#C41E3A;--accent-red-glow:rgba(196,30,58,0.3);--accent-gold:#D4A853;--text-primary:#F0EDE8;--text-secondary:#8A8A9A;--text-muted:#5A5A6A;--border:#1E1E2A;--border-hover:#2A2A3A}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',sans-serif;background:var(--bg-dark);color:var(--text-primary);overflow-x:hidden;line-height:1.6}
+
+nav{position:fixed;top:0;width:100%;padding:0.8rem 3rem;display:flex;justify-content:space-between;align-items:center;z-index:100;background:rgba(10,10,15,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-brand{display:flex;align-items:center;gap:0.7rem;text-decoration:none}
+.nav-logo{width:36px;height:36px;border-radius:6px;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 30% 30%,#C41E3A,#8B0000);position:relative;overflow:hidden}
+.nav-logo-img{height:32px;width:auto;display:block}
+.logo-text{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:900;letter-spacing:-0.02em;color:var(--text-primary)}
+.logo-text span{color:var(--accent-red)}
+.nav-cta{padding:0.6rem 1.6rem;background:var(--accent-red);color:white;text-decoration:none;font-weight:700;font-size:0.85rem;letter-spacing:0.05em;text-transform:uppercase;transition:all 0.3s ease;border:none;cursor:pointer}
+.nav-cta:hover{background:#A01830;box-shadow:0 0 30px var(--accent-red-glow)}
+
+/* HERO — uses bg-grid.jpg when deployed */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:8rem 2rem 4rem;position:relative;overflow:hidden;
+  background:
+    linear-gradient(180deg,rgba(10,10,15,0.7) 0%,rgba(10,10,15,0.4) 40%,rgba(10,10,15,0.85) 100%),
+    radial-gradient(ellipse at 20% 80%,rgba(212,168,83,0.15) 0%,transparent 50%),
+    radial-gradient(ellipse at 80% 60%,rgba(196,30,58,0.12) 0%,transparent 50%),
+    radial-gradient(ellipse at 50% 100%,rgba(196,30,58,0.2) 0%,transparent 60%),
+    url('bg-grid.jpg') center bottom/cover no-repeat;
+}
+.hero::before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:radial-gradient(circle at 50% 40%,rgba(196,30,58,0.08) 0%,transparent 60%);pointer-events:none}
+
+.hero-logo{width:110px;height:110px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:2rem;animation:fadeInUp 0.8s ease both;box-shadow:0 0 80px rgba(196,30,58,0.25);background:radial-gradient(circle at 35% 30%,#E85D04 0%,#C41E3A 40%,#8B0000 70%,#2a0a0a 100%);position:relative;overflow:hidden;padding:16px}
+.hero-logo::before{content:'';position:absolute;width:70%;height:70%;border:3px solid rgba(255,255,255,0.15);border-radius:50%;top:15%;left:15%;z-index:0}
+.hero-logo img{width:70px;height:70px;object-fit:contain;position:relative;z-index:1;filter:brightness(0) invert(1)}
+
+.hero-badge{display:inline-flex;align-items:center;gap:0.5rem;padding:0.4rem 1rem;border:1px solid rgba(255,255,255,0.12);background:rgba(10,10,15,0.5);backdrop-filter:blur(10px);margin-bottom:2rem;font-size:0.78rem;color:var(--text-secondary);letter-spacing:0.08em;text-transform:uppercase;animation:fadeInUp 0.8s ease 0.05s both;position:relative;z-index:1}
+.hero-badge::before{content:'';width:6px;height:6px;background:var(--accent-red);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.8rem,7vw,5.5rem);font-weight:900;line-height:1.05;max-width:800px;margin-bottom:1.5rem;animation:fadeInUp 0.8s ease 0.1s both;text-shadow:0 2px 30px rgba(0,0,0,0.6);position:relative;z-index:1}
+.hero h1 em{font-style:italic;color:var(--accent-red)}
+.hero-sub{font-size:1.15rem;color:var(--text-secondary);max-width:550px;margin-bottom:2.5rem;animation:fadeInUp 0.8s ease 0.2s both;position:relative;z-index:1}
+.hero-cta{display:inline-flex;align-items:center;gap:0.8rem;padding:1rem 2.5rem;background:var(--accent-red);color:white;text-decoration:none;font-weight:700;font-size:0.9rem;letter-spacing:0.05em;text-transform:uppercase;transition:all 0.4s ease;animation:fadeInUp 0.8s ease 0.3s both;border:none;cursor:pointer;position:relative;z-index:1}
+.hero-cta:hover{background:#A01830;box-shadow:0 0 40px var(--accent-red-glow);transform:translateY(-2px)}
+.hero-cta::after{content:'\2192';transition:transform 0.3s ease}
+.hero-cta:hover::after{transform:translateX(4px)}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+.cred-bar{padding:3rem 2rem;text-align:center;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.cred-bar>p{font-size:0.8rem;color:var(--text-muted);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:1.5rem}
+.cred-stats{display:flex;justify-content:center;gap:4rem;flex-wrap:wrap}
+.cred-stat{text-align:center}
+.cred-stat .number{font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;color:var(--text-primary)}
+.cred-stat .label{font-size:0.78rem;color:var(--text-secondary);letter-spacing:0.05em;text-transform:uppercase;margin-top:0.3rem}
+
+section{padding:6rem 2rem;max-width:1100px;margin:0 auto}
+.section-label{font-size:0.72rem;color:var(--accent-red);letter-spacing:0.15em;text-transform:uppercase;font-weight:700;margin-bottom:1rem}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3rem);font-weight:900;margin-bottom:1.5rem;line-height:1.15}
+.section-desc{color:var(--text-secondary);font-size:1.05rem;max-width:600px;margin-bottom:3rem}
+
+.problem-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem}
+.problem-card{background:var(--bg-card);border:1px solid var(--border);padding:2rem;transition:all 0.3s ease}
+.problem-card:hover{border-color:var(--border-hover);background:var(--bg-card-hover)}
+.problem-card .icon{width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:rgba(196,30,58,0.1);border:1px solid rgba(196,30,58,0.2);margin-bottom:1.2rem;font-size:1.1rem}
+.problem-card h3{font-size:1.05rem;font-weight:700;margin-bottom:0.6rem}
+.problem-card p{font-size:0.9rem;color:var(--text-secondary);line-height:1.5}
+
+.deploy-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem}
+.deploy-card{background:var(--bg-card);border:1px solid var(--border);padding:2rem;position:relative;overflow:hidden;transition:all 0.3s ease}
+.deploy-card:hover{border-color:var(--accent-red);box-shadow:0 0 30px rgba(196,30,58,0.08)}
+.deploy-card .number{font-family:'Playfair Display',serif;font-size:3rem;font-weight:900;color:rgba(196,30,58,0.15);position:absolute;top:0.5rem;right:1rem}
+.deploy-card h3{font-size:1.05rem;font-weight:700;margin-bottom:0.6rem}
+.deploy-card p{font-size:0.88rem;color:var(--text-secondary);line-height:1.5}
+.deploy-card .tag{display:inline-block;margin-top:1rem;padding:0.25rem 0.7rem;background:rgba(196,30,58,0.1);border:1px solid rgba(196,30,58,0.2);font-size:0.7rem;color:var(--accent-red);letter-spacing:0.08em;text-transform:uppercase;font-weight:700}
+
+/* GROWTH — uses bg-claw.jpg when deployed */
+.growth-section{position:relative;overflow:hidden;border:1px solid var(--border);padding:4rem;margin:0 auto;max-width:1100px;
+  background:
+    linear-gradient(135deg,rgba(18,18,26,0.97) 0%,rgba(18,18,26,0.88) 50%,rgba(18,18,26,0.97) 100%),
+    radial-gradient(ellipse at 30% 50%,rgba(196,30,58,0.08) 0%,transparent 60%),
+    radial-gradient(ellipse at 70% 30%,rgba(100,20,20,0.1) 0%,transparent 50%),
+    var(--bg-card);
+  /* DEPLOY NOTE: Add bg-claw.jpg as background-image at 12% opacity */
+}
+.growth-section .section-label{color:var(--accent-gold)}
+.growth-features{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem;margin-top:2rem}
+.growth-feat{padding:1.5rem;border-left:2px solid var(--accent-gold)}
+.growth-feat h4{font-size:0.95rem;font-weight:700;margin-bottom:0.4rem}
+.growth-feat p{font-size:0.85rem;color:var(--text-secondary)}
+
+/* CASE STUDY — uses bg-beams.jpg when deployed */
+.case-study{position:relative;overflow:hidden;border:1px solid var(--border);padding:4rem;margin:3rem auto;max-width:1100px;
+  background:
+    linear-gradient(135deg,rgba(18,18,26,0.93) 0%,rgba(26,18,32,0.85) 40%,rgba(18,18,26,0.93) 100%),
+    radial-gradient(ellipse at 60% 50%,rgba(196,30,58,0.12) 0%,transparent 50%),
+    radial-gradient(ellipse at 80% 80%,rgba(196,30,58,0.06) 0%,transparent 40%),
+    var(--bg-card);
+  /* DEPLOY NOTE: Add bg-beams.jpg as background-image at 15% opacity */
+}
+.case-study .section-label{color:var(--accent-red)}
+.case-metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2rem;margin-top:2.5rem}
+.case-metric{text-align:center;padding:1.5rem;border:1px solid var(--border);background:rgba(10,10,15,0.5);backdrop-filter:blur(5px)}
+.case-metric .value{font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;color:var(--accent-red)}
+.case-metric .desc{font-size:0.8rem;color:var(--text-secondary);margin-top:0.3rem;text-transform:uppercase;letter-spacing:0.05em}
+
+.process-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0}
+.process-step{padding:2rem;border:1px solid var(--border);text-align:center}
+.process-step .step-num{font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;color:var(--accent-red);opacity:0.6}
+.process-step h3{font-size:0.95rem;font-weight:700;margin:0.8rem 0 0.4rem}
+.process-step p{font-size:0.82rem;color:var(--text-secondary)}
+
+.form-section{background:var(--bg-card);border:1px solid var(--border);padding:4rem;margin:0 auto;max-width:800px}
+.form-section .section-label{color:var(--accent-red)}
+.form-group{margin-bottom:1.8rem}
+.form-group label{display:block;font-size:0.85rem;font-weight:700;margin-bottom:0.5rem}
+.form-group label .hint{font-weight:400;color:var(--text-muted);font-size:0.78rem}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:0.8rem 1rem;background:var(--bg-dark);border:1px solid var(--border);color:var(--text-primary);font-family:'DM Sans',sans-serif;font-size:0.9rem;transition:border-color 0.3s ease;outline:none}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--accent-red)}
+.form-group select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238A8A9A' d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center;padding-right:2.5rem}
+.form-group select option{background:var(--bg-dark);color:var(--text-primary)}
+.form-group textarea{min-height:100px;resize:vertical}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
+.submit-btn{width:100%;padding:1rem;background:var(--accent-red);color:white;border:none;font-family:'DM Sans',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.05em;text-transform:uppercase;cursor:pointer;transition:all 0.3s ease;margin-top:1rem}
+.submit-btn:hover{background:#A01830;box-shadow:0 0 40px var(--accent-red-glow)}
+.form-note{text-align:center;margin-top:1rem;font-size:0.78rem;color:var(--text-muted)}
+
+footer{padding:3rem 2rem;text-align:center;border-top:1px solid var(--border)}
+.footer-brand{display:flex;align-items:center;justify-content:center;gap:0.6rem;margin-bottom:1rem}
+.footer-logo img{height:28px;width:auto}
+
+footer p{font-size:0.78rem;color:var(--text-muted)}
+footer .powered-by{margin-top:0.5rem;font-size:0.72rem;color:var(--text-muted)}
+footer .powered-by a{color:var(--text-secondary);text-decoration:none}
+
+@media(max-width:768px){
+nav{padding:0.6rem 1rem;gap:0.5rem}
+.nav-logo{width:28px;height:28px}
+.nav-logo::after{font-size:1.1rem}
+.logo-text{font-size:1.15rem}
+.nav-cta{padding:0.5rem 0.8rem;font-size:0.7rem;white-space:nowrap}
+.hero{padding:6.5rem 1.5rem 3rem}
+.hero-logo{width:80px;height:80px}
+.hero-logo::after{font-size:2.8rem}
+.hero h1{font-size:clamp(2rem,8vw,3.5rem)}
+.hero-sub{font-size:1rem}
+.hero-cta{padding:0.8rem 1.8rem;font-size:0.8rem}
+.cred-stats{gap:1.5rem}
+.cred-stat .number{font-size:2rem}
+.cred-stat .label{font-size:0.7rem}
+section{padding:3.5rem 1.2rem}
+.section-title{font-size:clamp(1.6rem,5vw,2.2rem)}
+.growth-section,.case-study,.form-section{padding:2rem 1.2rem}
+.form-row{grid-template-columns:1fr}
+.problem-grid{grid-template-columns:1fr}
+.deploy-grid{grid-template-columns:1fr}
+.process-steps{grid-template-columns:1fr 1fr}
+.case-metrics{grid-template-columns:1fr 1fr}
+}
+@media(max-width:380px){
+nav{padding:0.5rem 0.8rem}
+.nav-logo{width:24px;height:24px}
+.nav-logo::after{font-size:0.9rem}
+.logo-text{font-size:1rem}
+.nav-cta{padding:0.4rem 0.6rem;font-size:0.65rem}
+.hero-logo{width:65px;height:65px}
+.hero-logo::after{font-size:2.2rem}
+.process-steps{grid-template-columns:1fr}
+.case-metrics{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<nav>
+<a href="#" class="nav-brand">
+<img src="assets/CLAWR_Horizontal.svg" alt="CLAWR.AI" class="nav-logo-img">
+<div class="logo-text">CLAWR<span>.</span>AI</div>
+</a>
+<a href="#qualify" class="nav-cta">Book Discovery Call</a>
+</nav>
+
+<section class="hero">
+<div class="hero-logo"><img src="assets/CLAWR_Icon.svg" alt="CLAWR.AI"></div>
+<div class="hero-badge">Now Deploying AI Agents for UK Businesses</div>
+<h1>Your Business Has <em>Gaps.</em> We Close Them.</h1>
+<p class="hero-sub">AI agents that grip your operations, claw back wasted margin, and unlock revenue you didn't know existed. Built on intelligence from funding thousands of UK businesses.</p>
+<a href="#qualify" class="hero-cta">Get Your Free AI Assessment</a>
+</section>
+
+<div class="cred-bar">
+<p>Built on Posfin Capital Intelligence</p>
+<div class="cred-stats">
+<div class="cred-stat"><div class="number">2,000+</div><div class="label">Businesses Funded &amp; Advised</div></div>
+<div class="cred-stat"><div class="number">47</div><div class="label">Sectors Covered</div></div>
+<div class="cred-stat"><div class="number">&pound;250M+</div><div class="label">Facilities Arranged</div></div>
+<div class="cred-stat"><div class="number">72hrs</div><div class="label">Average Agent Deployment</div></div>
+</div>
+</div>
+
+<section>
+<div class="section-label">The Pattern We Keep Seeing</div>
+<h2 class="section-title">We've Been Inside Thousands of Businesses. The Problems Are Always the Same.</h2>
+<p class="section-desc">After funding and advising SMEs across every sector, we know exactly where the money leaks are.</p>
+<div class="problem-grid">
+<div class="problem-card"><div class="icon">&#9201;</div><h3>Founder Doing Everything</h3><p>20 hours a week on tasks a machine handles in seconds. Your most expensive resource doing your cheapest work.</p></div>
+<div class="problem-card"><div class="icon">&#9888;</div><h3>Zero Automation</h3><p>Client onboarding, invoicing, follow-ups, reporting — all manual. Every manual process is a margin leak.</p></div>
+<div class="problem-card"><div class="icon">&#128200;</div><h3>Underpriced Services</h3><p>No competitive intelligence. No pricing analysis. Leaving 15-30% on the table because you haven't looked at the data.</p></div>
+<div class="problem-card"><div class="icon">&#128176;</div><h3>Bloated Overheads</h3><p>Headcount growing faster than revenue. Staff doing work that agents handle at a fraction of the cost.</p></div>
+<div class="problem-card"><div class="icon">&#128269;</div><h3>No Market Intelligence</h3><p>You don't know what your competitors charge, where your customers come from, or what market you're really in.</p></div>
+<div class="problem-card"><div class="icon">&#128274;</div><h3>Trapped Knowledge</h3><p>Everything in the founder's head. No systems. No documentation. The business can't run without you.</p></div>
+</div>
+</section>
+
+<section>
+<div class="section-label">What Clawr Deploys</div>
+<h2 class="section-title">AI Agents Built for Your Business. Not Off-the-Shelf. Not Theory.</h2>
+<p class="section-desc">Every agent we deploy is custom-configured to your operations, your data, your goals.</p>
+<div class="deploy-grid">
+<div class="deploy-card"><div class="number">01</div><h3>Operations Agent</h3><p>Automates client onboarding, invoice processing, follow-ups, scheduling, and internal reporting. Replaces 1-2 FTEs of manual work.</p><span class="tag">Efficiency</span></div>
+<div class="deploy-card"><div class="number">02</div><h3>Sales Intelligence Agent</h3><p>Qualifies leads, drafts proposals, analyses conversion data, and identifies your highest-value prospects automatically.</p><span class="tag">Revenue</span></div>
+<div class="deploy-card"><div class="number">03</div><h3>Market Research Agent</h3><p>Monitors competitors, tracks pricing, analyses market trends, and surfaces opportunities you'd never find manually.</p><span class="tag">Intelligence</span></div>
+<div class="deploy-card"><div class="number">04</div><h3>Growth Architect Agent</h3><p>Identifies untapped revenue channels, models pricing scenarios, analyses customer acquisition costs, and builds growth playbooks.</p><span class="tag">Growth</span></div>
+<div class="deploy-card"><div class="number">05</div><h3>Property Valuation Agent</h3><p>Pulls sold comparables, generates valuation narratives, surfaces area market statistics, and creates bespoke property assessment reports.</p><span class="tag">Asset Intelligence</span></div>
+<div class="deploy-card"><div class="number">06</div><h3>Content &amp; Comms Agent</h3><p>Generates marketing copy, social posts, email sequences, and client communications — all in your brand voice, all at scale.</p><span class="tag">Scale</span></div>
+</div>
+</section>
+
+<div class="growth-section">
+<div class="section-label">New: Growth Architect</div>
+<h2 class="section-title">Not Just Efficiency. Revenue You Didn't Know Existed.</h2>
+<p class="section-desc">Most AI consultancies stop at automation. We go further. The Growth Architect agent doesn't just save you money — it makes you money.</p>
+<div class="growth-features">
+<div class="growth-feat"><h4>Pricing Optimisation</h4><p>Analyses your pricing against market data and competitor positioning. Most businesses are undercharging by 15-25%.</p></div>
+<div class="growth-feat"><h4>Channel Discovery</h4><p>Identifies untapped acquisition channels, partnership opportunities, and market segments you haven't considered.</p></div>
+<div class="growth-feat"><h4>Revenue Modelling</h4><p>Builds scenario models showing exactly what happens when you pull different growth levers. Data, not guesswork.</p></div>
+<div class="growth-feat"><h4>Competitive Intelligence</h4><p>Continuous monitoring of competitor activity, pricing changes, market positioning, and customer sentiment.</p></div>
+</div>
+</div>
+
+<div class="case-study">
+<div class="section-label">Live Example: Property Intelligence Agent</div>
+<h2 class="section-title">What We Built for a Posfin Capital Borrower in 48 Hours</h2>
+<p class="section-desc">A property-secured borrower needed a valuation assessment. Our agent delivered a comprehensive report that would have taken a surveyor days.</p>
+<div class="case-metrics">
+<div class="case-metric"><div class="value">127</div><div class="desc">Sold Comparables Analysed</div></div>
+<div class="case-metric"><div class="value">3.2mi</div><div class="desc">Radius Covered</div></div>
+<div class="case-metric"><div class="value">48hrs</div><div class="desc">From Brief to Report</div></div>
+<div class="case-metric"><div class="value">85%</div><div class="desc">Cost Saving vs Surveyor</div></div>
+</div>
+</div>
+
+<section>
+<div class="section-label">How It Works</div>
+<h2 class="section-title">From Discovery Call to Deployed Agents in Days, Not Months.</h2>
+<div class="process-steps">
+<div class="process-step"><div class="step-num">01</div><h3>Discovery Call</h3><p>15 minutes. We interrogate your business — model, margins, pain points, goals. No fluff.</p></div>
+<div class="process-step"><div class="step-num">02</div><h3>AI Teaser</h3><p>Within 48 hours, you receive a bespoke presentation showing exactly what agents can do for your business. Free.</p></div>
+<div class="process-step"><div class="step-num">03</div><h3>Deep Dive Blueprint</h3><p>Full implementation plan. Workflows mapped. ROI modelled. Timeline built. Investment: &pound;1,000.</p></div>
+<div class="process-step"><div class="step-num">04</div><h3>Deploy &amp; Grip</h3><p>We build and deploy your agents. Retainer, project-based, or profit share. Your choice. Easy in, easy out.</p></div>
+</div>
+</section>
+
+<section id="qualify">
+<div class="form-section">
+<div class="section-label">Book Your Discovery Call</div>
+<h2 class="section-title">15 Minutes. No Pitch. Just Answers.</h2>
+<p class="section-desc">Answer a few questions so we can research your business before we speak. The sharper the intel, the sharper the call.</p>
+<form onsubmit="handleSubmit(event)">
+<div class="form-row"><div class="form-group"><label>Your Name</label><input type="text" name="name" placeholder="Full name" required></div><div class="form-group"><label>Business Name</label><input type="text" name="business" placeholder="Company name" required></div></div>
+<div class="form-row"><div class="form-group"><label>Email</label><input type="email" name="email" placeholder="you@business.com" required></div><div class="form-group"><label>Phone</label><input type="tel" name="phone" placeholder="Mobile preferred"></div></div>
+<div class="form-group"><label>Website URL <span class="hint">(so we can research you before the call)</span></label><input type="url" name="website" placeholder="https://yourbusiness.com"></div>
+<div class="form-row"><div class="form-group"><label>Annual Revenue Bracket</label><select name="revenue" required><option value="" disabled selected>Select range</option><option>Under &pound;250K</option><option>&pound;250K – &pound;500K</option><option>&pound;500K – &pound;1M</option><option>&pound;1M – &pound;3M</option><option>&pound;3M – &pound;10M</option><option>&pound;10M+</option></select></div><div class="form-group"><label>Team Size</label><select name="team_size" required><option value="" disabled selected>Select range</option><option>Just me</option><option>2 – 5</option><option>6 – 15</option><option>16 – 50</option><option>50+</option></select></div></div>
+<div class="form-group"><label>Sector / Industry</label><select name="sector" required><option value="" disabled selected>Select your sector</option><option>Professional Services</option><option>Construction / Trades</option><option>E-commerce / Retail</option><option>Property / Real Estate</option><option>Healthcare / Medical</option><option>Hospitality / F&amp;B</option><option>Manufacturing</option><option>Technology / SaaS</option><option>Marketing / Agency</option><option>Transport / Logistics</option><option>Education / Training</option><option>Other</option></select></div>
+<div class="form-group"><label>What's the single biggest challenge in your business right now?</label><textarea name="challenge" placeholder="Be specific. The more detail, the more value we deliver on the call." required></textarea></div>
+<div class="form-group"><label>What does your current tech stack look like? <span class="hint">(CRM, accounting, project management, etc.)</span></label><textarea name="tech_stack" placeholder="e.g. Xero, HubSpot, Monday.com, Slack..."></textarea></div>
+<div class="form-group"><label>How did you hear about Clawr.ai?</label><select name="source"><option value="" disabled selected>Select one</option><option>Facebook / Instagram Ad</option><option>LinkedIn</option><option>Google Search</option><option>Posfin Capital</option><option>Referral</option><option>Other</option></select></div>
+<button type="submit" class="submit-btn">Book My Discovery Call</button>
+<p class="form-note">15-minute call. No obligation. If AI can't help your business, we'll tell you.</p>
+</form>
+</div>
+</section>
+
+<footer>
+<div class="footer-brand">
+<div class="footer-logo"><img src="assets/CLAWR_Horizontal.svg" alt="CLAWR.AI"></div>
+</div>
+<p>AI agents that grip your business.</p>
+<p class="powered-by">Intelligence powered by <a href="https://posfincapital.com" target="_blank">Posfin Capital</a></p>
+</footer>
+
+<script>
+function handleSubmit(e){e.preventDefault();var f=e.target;var d=new FormData(f);var o=Object.fromEntries(d.entries());console.log('Lead captured:',o);f.innerHTML='<div style="text-align:center;padding:3rem 0;"><div style="font-family:Playfair Display,serif;font-size:2rem;font-weight:900;margin-bottom:1rem;">We\'re on it.</div><p style="color:var(--text-secondary);font-size:1rem;max-width:400px;margin:0 auto;">We\'re researching your business now. Expect a calendar invite within 24 hours for your 15-minute Discovery Call.</p><p style="color:var(--text-muted);font-size:0.85rem;margin-top:1.5rem;">In the meantime, make sure your website is up to date — we\'ll be looking at it.</p></div>';f.scrollIntoView({behavior:'smooth',block:'center'});}
+document.querySelectorAll('a[href^="#"]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();document.querySelector(this.getAttribute('href')).scrollIntoView({behavior:'smooth'});});});
+</script>
+</body>
+</html>
