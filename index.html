@@ -1,296 +1,882 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Clawr.ai — AI Agents That Grip Your Business</title>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap');
-:root{--bg-dark:#0A0A0F;--bg-card:#12121A;--bg-card-hover:#1A1A25;--accent-red:#C41E3A;--accent-red-glow:rgba(196,30,58,0.3);--accent-gold:#D4A853;--text-primary:#F0EDE8;--text-secondary:#8A8A9A;--text-muted:#5A5A6A;--border:#1E1E2A;--border-hover:#2A2A3A}
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'DM Sans',sans-serif;background:var(--bg-dark);color:var(--text-primary);overflow-x:hidden;line-height:1.6}
-
-nav{position:fixed;top:0;width:100%;padding:0.8rem 3rem;display:flex;justify-content:space-between;align-items:center;z-index:100;background:rgba(10,10,15,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
-.nav-brand{display:flex;align-items:center;gap:0.7rem;text-decoration:none}
-.nav-logo{width:36px;height:36px;border-radius:6px;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 30% 30%,#C41E3A,#8B0000);position:relative;overflow:hidden}
-.nav-logo-img{height:32px;width:auto;display:block}
-.logo-text{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:900;letter-spacing:-0.02em;color:var(--text-primary)}
-.logo-text span{color:var(--accent-red)}
-.nav-cta{padding:0.6rem 1.6rem;background:var(--accent-red);color:white;text-decoration:none;font-weight:700;font-size:0.85rem;letter-spacing:0.05em;text-transform:uppercase;transition:all 0.3s ease;border:none;cursor:pointer}
-.nav-cta:hover{background:#A01830;box-shadow:0 0 30px var(--accent-red-glow)}
-
-/* HERO — uses bg-grid.jpg when deployed */
-.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:8rem 2rem 4rem;position:relative;overflow:hidden;
-  background:
-    linear-gradient(180deg,rgba(10,10,15,0.7) 0%,rgba(10,10,15,0.4) 40%,rgba(10,10,15,0.85) 100%),
-    radial-gradient(ellipse at 20% 80%,rgba(212,168,83,0.15) 0%,transparent 50%),
-    radial-gradient(ellipse at 80% 60%,rgba(196,30,58,0.12) 0%,transparent 50%),
-    radial-gradient(ellipse at 50% 100%,rgba(196,30,58,0.2) 0%,transparent 60%),
-    url('bg-grid.jpg') center bottom/cover no-repeat;
-}
-.hero::before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:radial-gradient(circle at 50% 40%,rgba(196,30,58,0.08) 0%,transparent 60%);pointer-events:none}
-
-.hero-logo{width:110px;height:110px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:2rem;animation:fadeInUp 0.8s ease both;box-shadow:0 0 80px rgba(196,30,58,0.25);background:radial-gradient(circle at 35% 30%,#E85D04 0%,#C41E3A 40%,#8B0000 70%,#2a0a0a 100%);position:relative;overflow:hidden;padding:16px}
-.hero-logo::before{content:'';position:absolute;width:70%;height:70%;border:3px solid rgba(255,255,255,0.15);border-radius:50%;top:15%;left:15%;z-index:0}
-.hero-logo img{width:70px;height:70px;object-fit:contain;position:relative;z-index:1;filter:brightness(0) invert(1)}
-
-.hero-badge{display:inline-flex;align-items:center;gap:0.5rem;padding:0.4rem 1rem;border:1px solid rgba(255,255,255,0.12);background:rgba(10,10,15,0.5);backdrop-filter:blur(10px);margin-bottom:2rem;font-size:0.78rem;color:var(--text-secondary);letter-spacing:0.08em;text-transform:uppercase;animation:fadeInUp 0.8s ease 0.05s both;position:relative;z-index:1}
-.hero-badge::before{content:'';width:6px;height:6px;background:var(--accent-red);border-radius:50%;animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
-.hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.8rem,7vw,5.5rem);font-weight:900;line-height:1.05;max-width:800px;margin-bottom:1.5rem;animation:fadeInUp 0.8s ease 0.1s both;text-shadow:0 2px 30px rgba(0,0,0,0.6);position:relative;z-index:1}
-.hero h1 em{font-style:italic;color:var(--accent-red)}
-.hero-sub{font-size:1.15rem;color:var(--text-secondary);max-width:550px;margin-bottom:2.5rem;animation:fadeInUp 0.8s ease 0.2s both;position:relative;z-index:1}
-.hero-cta{display:inline-flex;align-items:center;gap:0.8rem;padding:1rem 2.5rem;background:var(--accent-red);color:white;text-decoration:none;font-weight:700;font-size:0.9rem;letter-spacing:0.05em;text-transform:uppercase;transition:all 0.4s ease;animation:fadeInUp 0.8s ease 0.3s both;border:none;cursor:pointer;position:relative;z-index:1}
-.hero-cta:hover{background:#A01830;box-shadow:0 0 40px var(--accent-red-glow);transform:translateY(-2px)}
-.hero-cta::after{content:'\2192';transition:transform 0.3s ease}
-.hero-cta:hover::after{transform:translateX(4px)}
-@keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-
-.cred-bar{padding:3rem 2rem;text-align:center;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
-.cred-bar>p{font-size:0.8rem;color:var(--text-muted);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:1.5rem}
-.cred-stats{display:flex;justify-content:center;gap:4rem;flex-wrap:wrap}
-.cred-stat{text-align:center}
-.cred-stat .number{font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;color:var(--text-primary)}
-.cred-stat .label{font-size:0.78rem;color:var(--text-secondary);letter-spacing:0.05em;text-transform:uppercase;margin-top:0.3rem}
-
-section{padding:6rem 2rem;max-width:1100px;margin:0 auto}
-.section-label{font-size:0.72rem;color:var(--accent-red);letter-spacing:0.15em;text-transform:uppercase;font-weight:700;margin-bottom:1rem}
-.section-title{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3rem);font-weight:900;margin-bottom:1.5rem;line-height:1.15}
-.section-desc{color:var(--text-secondary);font-size:1.05rem;max-width:600px;margin-bottom:3rem}
-
-.problem-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem}
-.problem-card{background:var(--bg-card);border:1px solid var(--border);padding:2rem;transition:all 0.3s ease}
-.problem-card:hover{border-color:var(--border-hover);background:var(--bg-card-hover)}
-.problem-card .icon{width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:rgba(196,30,58,0.1);border:1px solid rgba(196,30,58,0.2);margin-bottom:1.2rem;font-size:1.1rem}
-.problem-card h3{font-size:1.05rem;font-weight:700;margin-bottom:0.6rem}
-.problem-card p{font-size:0.9rem;color:var(--text-secondary);line-height:1.5}
-
-.deploy-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem}
-.deploy-card{background:var(--bg-card);border:1px solid var(--border);padding:2rem;position:relative;overflow:hidden;transition:all 0.3s ease}
-.deploy-card:hover{border-color:var(--accent-red);box-shadow:0 0 30px rgba(196,30,58,0.08)}
-.deploy-card .number{font-family:'Playfair Display',serif;font-size:3rem;font-weight:900;color:rgba(196,30,58,0.15);position:absolute;top:0.5rem;right:1rem}
-.deploy-card h3{font-size:1.05rem;font-weight:700;margin-bottom:0.6rem}
-.deploy-card p{font-size:0.88rem;color:var(--text-secondary);line-height:1.5}
-.deploy-card .tag{display:inline-block;margin-top:1rem;padding:0.25rem 0.7rem;background:rgba(196,30,58,0.1);border:1px solid rgba(196,30,58,0.2);font-size:0.7rem;color:var(--accent-red);letter-spacing:0.08em;text-transform:uppercase;font-weight:700}
-
-/* GROWTH — uses bg-claw.jpg when deployed */
-.growth-section{position:relative;overflow:hidden;border:1px solid var(--border);padding:4rem;margin:0 auto;max-width:1100px;
-  background:
-    linear-gradient(135deg,rgba(18,18,26,0.97) 0%,rgba(18,18,26,0.88) 50%,rgba(18,18,26,0.97) 100%),
-    radial-gradient(ellipse at 30% 50%,rgba(196,30,58,0.08) 0%,transparent 60%),
-    radial-gradient(ellipse at 70% 30%,rgba(100,20,20,0.1) 0%,transparent 50%),
-    var(--bg-card);
-  /* DEPLOY NOTE: Add bg-claw.jpg as background-image at 12% opacity */
-}
-.growth-section .section-label{color:var(--accent-gold)}
-.growth-features{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem;margin-top:2rem}
-.growth-feat{padding:1.5rem;border-left:2px solid var(--accent-gold)}
-.growth-feat h4{font-size:0.95rem;font-weight:700;margin-bottom:0.4rem}
-.growth-feat p{font-size:0.85rem;color:var(--text-secondary)}
-
-/* CASE STUDY — uses bg-beams.jpg when deployed */
-.case-study{position:relative;overflow:hidden;border:1px solid var(--border);padding:4rem;margin:3rem auto;max-width:1100px;
-  background:
-    linear-gradient(135deg,rgba(18,18,26,0.93) 0%,rgba(26,18,32,0.85) 40%,rgba(18,18,26,0.93) 100%),
-    radial-gradient(ellipse at 60% 50%,rgba(196,30,58,0.12) 0%,transparent 50%),
-    radial-gradient(ellipse at 80% 80%,rgba(196,30,58,0.06) 0%,transparent 40%),
-    var(--bg-card);
-  /* DEPLOY NOTE: Add bg-beams.jpg as background-image at 15% opacity */
-}
-.case-study .section-label{color:var(--accent-red)}
-.case-metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2rem;margin-top:2.5rem}
-.case-metric{text-align:center;padding:1.5rem;border:1px solid var(--border);background:rgba(10,10,15,0.5);backdrop-filter:blur(5px)}
-.case-metric .value{font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;color:var(--accent-red)}
-.case-metric .desc{font-size:0.8rem;color:var(--text-secondary);margin-top:0.3rem;text-transform:uppercase;letter-spacing:0.05em}
-
-.process-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0}
-.process-step{padding:2rem;border:1px solid var(--border);text-align:center}
-.process-step .step-num{font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;color:var(--accent-red);opacity:0.6}
-.process-step h3{font-size:0.95rem;font-weight:700;margin:0.8rem 0 0.4rem}
-.process-step p{font-size:0.82rem;color:var(--text-secondary)}
-
-.form-section{background:var(--bg-card);border:1px solid var(--border);padding:4rem;margin:0 auto;max-width:800px}
-.form-section .section-label{color:var(--accent-red)}
-.form-group{margin-bottom:1.8rem}
-.form-group label{display:block;font-size:0.85rem;font-weight:700;margin-bottom:0.5rem}
-.form-group label .hint{font-weight:400;color:var(--text-muted);font-size:0.78rem}
-.form-group input,.form-group select,.form-group textarea{width:100%;padding:0.8rem 1rem;background:var(--bg-dark);border:1px solid var(--border);color:var(--text-primary);font-family:'DM Sans',sans-serif;font-size:0.9rem;transition:border-color 0.3s ease;outline:none}
-.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--accent-red)}
-.form-group select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238A8A9A' d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center;padding-right:2.5rem}
-.form-group select option{background:var(--bg-dark);color:var(--text-primary)}
-.form-group textarea{min-height:100px;resize:vertical}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
-.submit-btn{width:100%;padding:1rem;background:var(--accent-red);color:white;border:none;font-family:'DM Sans',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.05em;text-transform:uppercase;cursor:pointer;transition:all 0.3s ease;margin-top:1rem}
-.submit-btn:hover{background:#A01830;box-shadow:0 0 40px var(--accent-red-glow)}
-.form-note{text-align:center;margin-top:1rem;font-size:0.78rem;color:var(--text-muted)}
-
-footer{padding:3rem 2rem;text-align:center;border-top:1px solid var(--border)}
-.footer-brand{display:flex;align-items:center;justify-content:center;gap:0.6rem;margin-bottom:1rem}
-.footer-logo img{height:28px;width:auto}
-
-footer p{font-size:0.78rem;color:var(--text-muted)}
-footer .powered-by{margin-top:0.5rem;font-size:0.72rem;color:var(--text-muted)}
-footer .powered-by a{color:var(--text-secondary);text-decoration:none}
-
-@media(max-width:768px){
-nav{padding:0.6rem 1rem;gap:0.5rem}
-.nav-logo{width:28px;height:28px}
-.nav-logo::after{font-size:1.1rem}
-.logo-text{font-size:1.15rem}
-.nav-cta{padding:0.5rem 0.8rem;font-size:0.7rem;white-space:nowrap}
-.hero{padding:6.5rem 1.5rem 3rem}
-.hero-logo{width:80px;height:80px}
-.hero-logo::after{font-size:2.8rem}
-.hero h1{font-size:clamp(2rem,8vw,3.5rem)}
-.hero-sub{font-size:1rem}
-.hero-cta{padding:0.8rem 1.8rem;font-size:0.8rem}
-.cred-stats{gap:1.5rem}
-.cred-stat .number{font-size:2rem}
-.cred-stat .label{font-size:0.7rem}
-section{padding:3.5rem 1.2rem}
-.section-title{font-size:clamp(1.6rem,5vw,2.2rem)}
-.growth-section,.case-study,.form-section{padding:2rem 1.2rem}
-.form-row{grid-template-columns:1fr}
-.problem-grid{grid-template-columns:1fr}
-.deploy-grid{grid-template-columns:1fr}
-.process-steps{grid-template-columns:1fr 1fr}
-.case-metrics{grid-template-columns:1fr 1fr}
-}
-@media(max-width:380px){
-nav{padding:0.5rem 0.8rem}
-.nav-logo{width:24px;height:24px}
-.nav-logo::after{font-size:0.9rem}
-.logo-text{font-size:1rem}
-.nav-cta{padding:0.4rem 0.6rem;font-size:0.65rem}
-.hero-logo{width:65px;height:65px}
-.hero-logo::after{font-size:2.2rem}
-.process-steps{grid-template-columns:1fr}
-.case-metrics{grid-template-columns:1fr}
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0A0A0F">
+  <meta name="description" content="CLAWR.AI — Your AI Dealmaker. Automated. Cloned. Global. Replace your CRM, sales team, and admin with one intelligent agent.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="CLAWR.AI">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="CLAWR.AI">
+  <!-- Open Graph -->
+  <meta property="og:title" content="CLAWR.AI — AI Dealmaker">
+  <meta property="og:description" content="Your AI dealmaker. Automated. Cloned. Global. Stop hiring. Start scaling.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="/icons/icon-512.svg">
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="CLAWR.AI — AI Dealmaker">
+  <title>CLAWR.AI — AI Dealmaker</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/svg+xml" href="icons/icon-192.svg">
+  <link rel="apple-touch-icon" href="icons/icon-192.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-<nav>
-<a href="#" class="nav-brand">
-<img src="assets/CLAWR_Horizontal.svg" alt="CLAWR.AI" class="nav-logo-img">
-<div class="logo-text">CLAWR<span>.</span>AI</div>
-</a>
-<a href="#qualify" class="nav-cta">Book Discovery Call</a>
+<!-- ═══════════════════════════════════════════════════════════
+     LOADING SCREEN
+════════════════════════════════════════════════════════════ -->
+<div id="loading-screen" aria-label="Loading CLAWR.AI" role="status">
+  <div class="loading-logo">CLAWR.AI</div>
+  <div class="loading-spinner"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     TOP NAVIGATION
+════════════════════════════════════════════════════════════ -->
+<nav id="top-nav" role="navigation" aria-label="Main navigation">
+  <div class="nav-logo" onclick="CLAWR.navigate('home')" role="button" tabindex="0" aria-label="CLAWR.AI Home" style="display:flex;align-items:center;gap:8px;">
+    <img src="icons/icon-96.svg" alt="" style="width:28px;height:28px;display:block;flex-shrink:0;">
+    CLAWR<span class="dot">.</span>AI
+  </div>
+
+  <!-- Desktop nav links (public) -->
+  <div class="nav-links" id="public-nav-links">
+    <button class="nav-link" onclick="CLAWR.navigate('verticals')">Verticals</button>
+    <button class="nav-link" onclick="CLAWR.navigate('pricing')">Pricing</button>
+    <button class="nav-link" onclick="CLAWR.navigate('about')">About</button>
+  </div>
+
+  <!-- Desktop nav links (app) -->
+  <div class="nav-links hidden" id="app-nav-links">
+    <button class="nav-link" onclick="CLAWR.navigate('dashboard')">Dashboard</button>
+    <button class="nav-link" onclick="CLAWR.navigate('pipeline')">Pipeline</button>
+    <button class="nav-link" onclick="CLAWR.navigate('documents')">Documents</button>
+    <button class="nav-link" onclick="CLAWR.navigate('analytics')">Analytics</button>
+    <button class="nav-link" onclick="CLAWR.navigate('brain')">Agent Brain</button>
+  </div>
+
+  <div class="nav-right">
+    <span id="nav-status-indicator" class="hidden">
+      <span class="status-dot"></span>
+      <span id="nav-agent-status" class="text-sm text-success font-bold">LIVE</span>
+    </span>
+    <button id="nav-login-btn" class="nav-btn" onclick="CLAWR.navigate('signup')" aria-label="Login">Sign In</button>
+    <button id="nav-cta-btn" class="nav-cta" onclick="CLAWR.navigate('signup')">Get Started Free</button>
+  </div>
 </nav>
 
-<section class="hero">
-<div class="hero-logo"><img src="assets/CLAWR_Icon.svg" alt="CLAWR.AI"></div>
-<div class="hero-badge">Now Deploying AI Agents for UK Businesses</div>
-<h1>Your Business Has <em>Gaps.</em> We Close Them.</h1>
-<p class="hero-sub">AI agents that grip your operations, claw back wasted margin, and unlock revenue you didn't know existed. Built on intelligence from funding thousands of UK businesses.</p>
-<a href="#qualify" class="hero-cta">Get Your Free AI Assessment</a>
-</section>
+<!-- ═══════════════════════════════════════════════════════════
+     SIDEBAR (desktop, app mode)
+════════════════════════════════════════════════════════════ -->
+<aside id="sidebar" class="hidden" aria-label="Sidebar navigation">
+  <div class="sidebar-section-label">Command Centre</div>
+  <button class="sidebar-item" data-screen="dashboard" onclick="CLAWR.navigate('dashboard')">
+    <span class="sidebar-icon">⚡</span> Dashboard
+    <span class="sidebar-badge" id="sidebar-badge-dash">3</span>
+  </button>
+  <button class="sidebar-item" data-screen="pipeline" onclick="CLAWR.navigate('pipeline')">
+    <span class="sidebar-icon">📊</span> Pipeline
+  </button>
+  <button class="sidebar-item" data-screen="documents" onclick="CLAWR.navigate('documents')">
+    <span class="sidebar-icon">📄</span> Documents
+    <span class="sidebar-badge" id="sidebar-badge-docs">2</span>
+  </button>
+  <button class="sidebar-item" data-screen="analytics" onclick="CLAWR.navigate('analytics')">
+    <span class="sidebar-icon">📈</span> Analytics
+  </button>
 
-<div class="cred-bar">
-<p>Built on Posfin Capital Intelligence</p>
-<div class="cred-stats">
-<div class="cred-stat"><div class="number">2,000+</div><div class="label">Businesses Funded &amp; Advised</div></div>
-<div class="cred-stat"><div class="number">47</div><div class="label">Sectors Covered</div></div>
-<div class="cred-stat"><div class="number">&pound;250M+</div><div class="label">Facilities Arranged</div></div>
-<div class="cred-stat"><div class="number">72hrs</div><div class="label">Average Agent Deployment</div></div>
-</div>
+  <div class="sidebar-section-label">Configuration</div>
+  <button class="sidebar-item" data-screen="brain" onclick="CLAWR.navigate('brain')">
+    <span class="sidebar-icon">🧠</span> Agent Brain
+  </button>
+
+  <div class="sidebar-section-label">Company</div>
+  <button class="sidebar-item" data-screen="verticals" onclick="CLAWR.navigate('verticals')">
+    <span class="sidebar-icon">🏢</span> Verticals
+  </button>
+  <button class="sidebar-item" data-screen="pricing" onclick="CLAWR.navigate('pricing')">
+    <span class="sidebar-icon">💎</span> Pricing
+  </button>
+  <button class="sidebar-item" data-screen="about" onclick="CLAWR.navigate('about')">
+    <span class="sidebar-icon">ℹ️</span> About
+  </button>
+
+  <div class="sidebar-status" style="margin-top:auto">
+    <div class="flex items-center gap-sm mb-sm">
+      <span class="status-dot"></span>
+      <span class="text-sm font-bold text-success">Agent LIVE</span>
+    </div>
+    <div class="text-xs text-muted">Last action: 2 mins ago</div>
+    <div class="text-xs text-muted" id="sidebar-pipeline-total" style="margin-top:4px">Pipeline: £847,000</div>
+  </div>
+</aside>
+
+<!-- ═══════════════════════════════════════════════════════════
+     APP
+════════════════════════════════════════════════════════════ -->
+<div id="app">
+
+  <!-- ─── SCREEN 1: HOME / HERO ─────────────────────────────────── -->
+  <section id="screen-home" class="screen active" role="main" aria-label="Hero">
+    <div class="hero">
+      <div class="hero-bg"></div>
+      <div class="hero-grid"></div>
+      <div class="hero-content">
+        <!-- Floating claw logo -->
+        <div style="margin-bottom:2rem; animation: float 4s ease-in-out infinite;">
+          <div class="agent-avatar" style="margin:0 auto 0.5rem">
+            <div class="avatar-ring"></div>
+            <div class="avatar-ring"></div>
+            <div class="avatar-ring"></div>
+            <div class="avatar-circle" style="background:transparent;border:none;display:flex;align-items:center;justify-content:center;">
+              <img src="icons/icon-96.svg" alt="CLAWR.AI" style="width:56px;height:56px;display:block;">
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-tag">
+          <span class="hero-tag-dot"></span>
+          AI Dealmaker Platform · Now Live
+        </div>
+
+        <h1 class="hero-headline">
+          Your AI Dealmaker.<br>
+          <span class="gradient-text">Automated. Cloned. Global.</span>
+        </h1>
+
+        <p class="hero-sub">Stop hiring. Start scaling.<br>One agent qualifies leads, closes deals, and sends contracts — 24/7.</p>
+
+        <div class="hero-ctas">
+          <button class="btn btn-primary btn-xl" onclick="CLAWR.navigate('signup')">
+            🚀 Get Started Free
+          </button>
+          <button class="btn btn-secondary btn-xl" onclick="CLAWR.showDemo()">
+            ▶ Watch Demo (2 min)
+          </button>
+        </div>
+
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <div class="hero-stat-value">10,000+</div>
+            <div class="hero-stat-label">Businesses</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-value">47</div>
+            <div class="hero-stat-label">Countries</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-value">£2.4bn</div>
+            <div class="hero-stat-label">Pipeline Managed</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-value">24hrs</div>
+            <div class="hero-stat-label">Go Live Time</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Features strip -->
+    <div class="page-container" style="padding-bottom:4rem">
+      <div class="divider-text">Trusted by teams replacing £240,000/year in sales headcount</div>
+
+      <div class="grid-3" style="gap:1rem; margin-top:2rem">
+        <div class="card card-accent text-center" style="padding:2rem 1.5rem">
+          <div style="font-size:2.5rem;margin-bottom:1rem">🤖</div>
+          <h4 style="margin-bottom:0.5rem">Clone Your Voice</h4>
+          <p class="text-sm text-secondary">Record 2 minutes. Get a cloned AI agent that sounds, sells, and closes exactly like you.</p>
+        </div>
+        <div class="card text-center" style="padding:2rem 1.5rem">
+          <div style="font-size:2.5rem;margin-bottom:1rem">⚡</div>
+          <h4 style="margin-bottom:0.5rem">Live in 24 Hours</h4>
+          <p class="text-sm text-secondary">Upload your docs, set your rules, and your agent is live — qualifying leads before you finish lunch.</p>
+        </div>
+        <div class="card text-center" style="padding:2rem 1.5rem">
+          <div style="font-size:2.5rem;margin-bottom:1rem">🌍</div>
+          <h4 style="margin-bottom:0.5rem">Any Language</h4>
+          <p class="text-sm text-secondary">English, French, German, Spanish, Mandarin. Your agent runs the deal in any timezone, any language.</p>
+        </div>
+      </div>
+
+      <div style="text-align:center; margin-top:3rem">
+        <button class="btn btn-primary btn-lg" onclick="CLAWR.navigate('verticals')">See All Verticals →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── SCREEN 2: DASHBOARD ───────────────────────────────────── -->
+  <section id="screen-dashboard" class="screen" role="main" aria-label="Dashboard">
+    <div class="main-content">
+      <div class="page-container">
+        <!-- Header -->
+        <div class="section-header">
+          <div>
+            <div class="page-title">Good morning, Byron ☀️</div>
+            <div class="page-subtitle">Your agent has been working since 00:00. Here's today so far.</div>
+          </div>
+          <div class="flex gap-sm items-center">
+            <span class="badge badge-live">
+              <span class="status-dot" style="width:6px;height:6px;margin-right:0"></span>
+              LIVE
+            </span>
+            <button class="btn btn-secondary btn-sm" onclick="CLAWR.toggleAgentStatus()">Pause Agent</button>
+          </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid mb-lg">
+          <div class="stat-card">
+            <div class="stat-label">Leads Qualified</div>
+            <div class="stat-value" id="stat-leads">24</div>
+            <div class="stat-delta up">↑ 8 from yesterday</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Deals Progressed</div>
+            <div class="stat-value" id="stat-deals">7</div>
+            <div class="stat-delta up">↑ 3 from yesterday</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Docs Sent</div>
+            <div class="stat-value" id="stat-docs">12</div>
+            <div class="stat-delta up">↑ 4 from yesterday</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Pipeline Value</div>
+            <div class="stat-value" id="stat-pipeline">£847k</div>
+            <div class="stat-delta up">↑ £142k this week</div>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="card mb-lg">
+          <div class="section-header" style="margin-bottom:1rem">
+            <h3 style="font-size:1rem">Quick Actions</h3>
+          </div>
+          <div class="quick-actions">
+            <button class="quick-action" onclick="CLAWR.navigate('brain')">
+              <span class="quick-action-icon">🧠</span>
+              Train Agent
+            </button>
+            <button class="quick-action" onclick="CLAWR.navigate('documents')">
+              <span class="quick-action-icon">📝</span>
+              Review Drafts
+            </button>
+            <button class="quick-action" onclick="CLAWR.navigate('pipeline')">
+              <span class="quick-action-icon">📊</span>
+              View Pipeline
+            </button>
+            <button class="quick-action" onclick="CLAWR.showInviteModal()">
+              <span class="quick-action-icon">👥</span>
+              Invite Team
+            </button>
+          </div>
+        </div>
+
+        <!-- Live Feed -->
+        <div class="card">
+          <div class="section-header" style="margin-bottom:0.5rem">
+            <h3 style="font-size:1rem">Live Agent Feed</h3>
+            <span class="badge badge-live" style="font-size:0.65rem">
+              <span class="status-dot" style="width:5px;height:5px;margin:0"></span> Live
+            </span>
+          </div>
+          <div id="live-feed" class="mt-md">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── SCREEN 3: PIPELINE ────────────────────────────────────── -->
+  <section id="screen-pipeline" class="screen" role="main" aria-label="Pipeline">
+    <div class="main-content">
+      <div class="page-container">
+        <div class="section-header">
+          <div>
+            <div class="page-title">Deal Pipeline</div>
+            <div class="page-subtitle" id="pipeline-total-label">14 active deals · £847,000 total</div>
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="CLAWR.showAddDealModal()">+ Add Deal</button>
+        </div>
+
+        <!-- Filter bar -->
+        <div class="filter-bar mb-lg" role="group" aria-label="Pipeline filters">
+          <button class="filter-chip active" onclick="CLAWR.filterPipeline('all')">All Deals</button>
+          <button class="filter-chip" onclick="CLAWR.filterPipeline('high')">High Value (£100k+)</button>
+          <button class="filter-chip" onclick="CLAWR.filterPipeline('ai-active')">AI Active</button>
+          <button class="filter-chip" onclick="CLAWR.filterPipeline('stale')">Needs Attention</button>
+        </div>
+
+        <!-- Kanban Board -->
+        <div class="kanban-board" id="kanban-board" role="region" aria-label="Deal pipeline board">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── SCREEN 4: AGENT BRAIN ─────────────────────────────────── -->
+  <section id="screen-brain" class="screen" role="main" aria-label="Agent Brain">
+    <div class="main-content">
+      <div class="page-container">
+        <div class="page-header">
+          <div class="page-title">Agent Brain</div>
+          <div class="page-subtitle">Configure how your AI dealmaker thinks, speaks, and acts</div>
+        </div>
+
+        <!-- Training Documents -->
+        <div class="card mb-lg">
+          <h3 style="font-size:1rem;margin-bottom:1rem">📚 Training Documents</h3>
+          <div class="drag-zone" id="doc-drop-zone" onclick="document.getElementById('doc-file-input').click()" role="button" tabindex="0" aria-label="Upload training documents">
+            <span class="drag-icon">📂</span>
+            <strong>Drop PDFs here or click to upload</strong>
+            <div class="text-sm text-muted mt-sm">Product sheets, service docs, scripts, FAQs — anything your agent needs to know</div>
+          </div>
+          <input type="file" id="doc-file-input" multiple accept=".pdf,.doc,.docx,.txt" class="hidden" onchange="CLAWR.handleDocUpload(event)">
+          <div id="uploaded-docs" style="margin-top:1rem"></div>
+        </div>
+
+        <!-- Avatar Video -->
+        <div class="card mb-lg">
+          <h3 style="font-size:1rem;margin-bottom:1rem">🎬 Avatar Video</h3>
+          <p class="text-sm text-secondary mb-md">Record or upload a 2-minute introduction video. Your AI agent will clone your voice, tone, and style.</p>
+          <div class="flex gap-sm flex-wrap">
+            <button class="btn btn-primary btn-md" onclick="CLAWR.recordVideo()">⏺ Record Now</button>
+            <button class="btn btn-secondary btn-md" onclick="document.getElementById('video-file-input').click()">📁 Upload Video</button>
+          </div>
+          <input type="file" id="video-file-input" accept="video/*" class="hidden" onchange="CLAWR.handleVideoUpload(event)">
+          <div id="video-preview" class="mt-md"></div>
+        </div>
+
+        <!-- Personality -->
+        <div class="card mb-lg">
+          <h3 style="font-size:1rem;margin-bottom:1rem">🎭 Agent Personality</h3>
+          <div class="personality-grid" role="radiogroup" aria-label="Agent personality">
+            <button class="personality-btn" data-personality="formal" onclick="CLAWR.setPersonality(this)">
+              🎩 Formal
+            </button>
+            <button class="personality-btn selected" data-personality="professional" onclick="CLAWR.setPersonality(this)">
+              💼 Professional
+            </button>
+            <button class="personality-btn" data-personality="warm" onclick="CLAWR.setPersonality(this)">
+              ☀️ Warm
+            </button>
+            <button class="personality-btn" data-personality="aggressive" onclick="CLAWR.setPersonality(this)">
+              ⚡ Aggressive
+            </button>
+          </div>
+        </div>
+
+        <!-- Industry Vertical -->
+        <div class="card mb-lg">
+          <h3 style="font-size:1rem;margin-bottom:1rem">🏢 Industry Vertical</h3>
+          <div class="form-group">
+            <select id="agent-vertical" onchange="CLAWR.setVertical(this.value)" aria-label="Select industry vertical">
+              <option value="financial-services">💰 Financial Services (Bridging, Mortgages, Lending)</option>
+              <option value="legal">⚖️ Legal (Conveyancing, Employment, Commercial)</option>
+              <option value="property">🏠 Property (Estate Agents, Developers, Investors)</option>
+              <option value="recruitment">👤 Recruitment (Headhunters, Staffing Agencies)</option>
+              <option value="saas">💻 SaaS Sales (BDR Replacement)</option>
+              <option value="retail">🛒 Retail / eCommerce</option>
+              <option value="healthcare">🏥 Healthcare (Private Clinics, Aesthetics)</option>
+              <option value="education">🎓 Education (Admissions, Course Sales)</option>
+              <option value="custom">✨ Custom Vertical</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Language & Timezone -->
+        <div class="card mb-lg">
+          <h3 style="font-size:1rem;margin-bottom:1rem">🌍 Language & Timezone</h3>
+          <div class="form-row form-row-2">
+            <div class="form-group">
+              <label for="agent-language">Language</label>
+              <select id="agent-language" aria-label="Agent language">
+                <option value="en-GB">🇬🇧 English (UK)</option>
+                <option value="en-US">🇺🇸 English (US)</option>
+                <option value="fr">🇫🇷 French</option>
+                <option value="de">🇩🇪 German</option>
+                <option value="es">🇪🇸 Spanish</option>
+                <option value="ar">🇦🇪 Arabic</option>
+                <option value="zh">🇨🇳 Mandarin</option>
+                <option value="ja">🇯🇵 Japanese</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="agent-timezone">Timezone</label>
+              <select id="agent-timezone" aria-label="Agent timezone">
+                <option value="Europe/London">GMT (London)</option>
+                <option value="Europe/Paris">GMT+1 (Paris/Berlin)</option>
+                <option value="America/New_York">EST (New York)</option>
+                <option value="America/Los_Angeles">PST (LA)</option>
+                <option value="Asia/Dubai">GST (Dubai)</option>
+                <option value="Asia/Singapore">SGT (Singapore)</option>
+                <option value="Asia/Tokyo">JST (Tokyo)</option>
+                <option value="Australia/Sydney">AEST (Sydney)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Compliance Rules -->
+        <div class="card mb-lg">
+          <h3 style="font-size:1rem;margin-bottom:1rem">🛡️ Compliance Rules</h3>
+          <p class="text-sm text-secondary mb-md">Define what your agent can and cannot say. These rules are enforced on every interaction.</p>
+          <div class="form-group mb-md">
+            <label for="compliance-can">Agent CAN say...</label>
+            <textarea id="compliance-can" placeholder="e.g. Quote indicative rates, describe products, qualify income, book discovery calls..." rows="3"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="compliance-cannot">Agent CANNOT say...</label>
+            <textarea id="compliance-cannot" placeholder="e.g. Give regulated advice, confirm rates, commit to terms, discuss competitor pricing..." rows="3"></textarea>
+          </div>
+        </div>
+
+        <!-- Escalation Triggers -->
+        <div class="card mb-lg">
+          <h3 style="font-size:1rem;margin-bottom:1rem">🔔 Escalation Triggers</h3>
+          <p class="text-sm text-secondary mb-md">When should the AI hand off to a human?</p>
+          <div class="form-group mb-md">
+            <div class="flex items-center justify-between" style="padding:0.75rem 0;border-bottom:1px solid var(--border)">
+              <div>
+                <div class="text-sm font-bold">Deal value exceeds £500,000</div>
+                <div class="text-xs text-muted">Immediately escalate to senior team</div>
+              </div>
+              <label class="switch"><input type="checkbox" checked id="esc-high-value"><span class="switch-slider"></span></label>
+            </div>
+            <div class="flex items-center justify-between" style="padding:0.75rem 0;border-bottom:1px solid var(--border)">
+              <div>
+                <div class="text-sm font-bold">Customer requests human contact</div>
+                <div class="text-xs text-muted">Transfer within 2 business hours</div>
+              </div>
+              <label class="switch"><input type="checkbox" checked id="esc-human-request"><span class="switch-slider"></span></label>
+            </div>
+            <div class="flex items-center justify-between" style="padding:0.75rem 0;border-bottom:1px solid var(--border)">
+              <div>
+                <div class="text-sm font-bold">Complaint or legal threat detected</div>
+                <div class="text-xs text-muted">Pause conversation, alert compliance</div>
+              </div>
+              <label class="switch"><input type="checkbox" checked id="esc-complaint"><span class="switch-slider"></span></label>
+            </div>
+            <div class="flex items-center justify-between" style="padding:0.75rem 0">
+              <div>
+                <div class="text-sm font-bold">No engagement after 3 attempts</div>
+                <div class="text-xs text-muted">Move to nurture sequence</div>
+              </div>
+              <label class="switch"><input type="checkbox" id="esc-no-engage"><span class="switch-slider"></span></label>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn btn-primary btn-full btn-lg" onclick="CLAWR.saveAgentConfig()">💾 Save Agent Configuration</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── SCREEN 5: DOCUMENTS ───────────────────────────────────── -->
+  <section id="screen-documents" class="screen" role="main" aria-label="Document Centre">
+    <div class="main-content">
+      <div class="page-container">
+        <div class="section-header">
+          <div>
+            <div class="page-title">Document Centre</div>
+            <div class="page-subtitle">All AI-generated proposals, contracts, and correspondence</div>
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="CLAWR.generateDocument()">+ Generate Doc</button>
+        </div>
+
+        <!-- Filter -->
+        <div class="filter-bar mb-lg">
+          <button class="filter-chip active" onclick="CLAWR.filterDocs('all')">All</button>
+          <button class="filter-chip" onclick="CLAWR.filterDocs('draft')">Draft</button>
+          <button class="filter-chip" onclick="CLAWR.filterDocs('sent')">Sent</button>
+          <button class="filter-chip" onclick="CLAWR.filterDocs('signed')">Signed</button>
+          <button class="filter-chip" onclick="CLAWR.filterDocs('archived')">Archived</button>
+        </div>
+
+        <div class="card" id="doc-list">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── SCREEN 6: ANALYTICS ───────────────────────────────────── -->
+  <section id="screen-analytics" class="screen" role="main" aria-label="Analytics">
+    <div class="main-content">
+      <div class="page-container">
+        <div class="page-header">
+          <div class="page-title">Analytics</div>
+          <div class="page-subtitle">Performance, ROI, and deal metrics</div>
+        </div>
+
+        <!-- ROI Banner -->
+        <div class="roi-display mb-lg">
+          <div class="text-xs text-muted mb-sm" style="text-transform:uppercase;letter-spacing:.08em">Agent ROI This Month</div>
+          <div class="roi-value">£127,400</div>
+          <div class="roi-label">Generated by AI · A human BDR would cost £8,400/month in salary alone</div>
+          <div style="margin-top:1rem;font-size:0.85rem;color:var(--success);font-weight:700">↑ 1,417% ROI on your £1,000/month subscription</div>
+        </div>
+
+        <!-- Conversion Funnel -->
+        <div class="card mb-lg">
+          <h3 style="font-size:1rem;margin-bottom:1.5rem">📉 Conversion Funnel</h3>
+          <div id="conversion-funnel"></div>
+        </div>
+
+        <!-- Revenue Chart -->
+        <div class="card mb-lg">
+          <div class="section-header" style="margin-bottom:1rem">
+            <h3 style="font-size:1rem">📈 Revenue by Month</h3>
+            <div class="text-xs text-muted">Last 6 months</div>
+          </div>
+          <div class="bar-chart" id="revenue-chart" aria-label="Revenue bar chart"></div>
+        </div>
+
+        <!-- Stats Row -->
+        <div class="grid-2 mb-lg" style="gap:1rem">
+          <div class="stat-card">
+            <div class="stat-label">Deals Won</div>
+            <div class="stat-value text-success">32</div>
+            <div class="stat-delta up">↑ 12 this month</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Deals Lost</div>
+            <div class="stat-value text-danger">8</div>
+            <div class="stat-delta down">↓ 3 from last month</div>
+          </div>
+        </div>
+
+        <!-- Response Time -->
+        <div class="card mb-lg">
+          <h3 style="font-size:1rem;margin-bottom:1.5rem">⚡ Response Time</h3>
+          <div class="flex gap-lg flex-wrap">
+            <div style="flex:1;text-align:center">
+              <div style="font-size:2rem;font-weight:900;color:var(--success)">47s</div>
+              <div class="text-xs text-muted" style="margin-top:4px">AI Average</div>
+            </div>
+            <div style="flex:1;text-align:center">
+              <div style="font-size:2rem;font-weight:900;color:var(--danger)">4.2h</div>
+              <div class="text-xs text-muted" style="margin-top:4px">Human Average</div>
+            </div>
+            <div style="flex:1;text-align:center">
+              <div style="font-size:2rem;font-weight:900;background:var(--gradient-brand);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">321×</div>
+              <div class="text-xs text-muted" style="margin-top:4px">Faster than human</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── SCREEN 7: VERTICALS ───────────────────────────────────── -->
+  <section id="screen-verticals" class="screen" role="main" aria-label="Enterprise Verticals">
+    <div class="main-content">
+      <div class="page-container">
+        <div style="text-align:center;margin-bottom:3rem;padding-top:2rem">
+          <div class="hero-tag" style="margin:0 auto 1.5rem;display:inline-flex">
+            🏢 Enterprise Deployment
+          </div>
+          <h2 style="margin-bottom:1rem">CLAWR.AI for Every Vertical</h2>
+          <p class="text-secondary" style="max-width:600px;margin:0 auto">Deploy your AI dealmaker into any industry. We've battle-tested each vertical. Pick yours and go live in 24 hours.</p>
+        </div>
+
+        <div class="verticals-grid" id="verticals-grid">
+          <!-- Populated by JS -->
+        </div>
+
+        <div style="text-align:center;margin-top:3rem;padding:3rem;background:var(--bg-card);border-radius:var(--radius-xl);border:1px solid var(--border-accent)">
+          <h3 style="margin-bottom:1rem">Don't see your vertical?</h3>
+          <p class="text-secondary mb-lg">CLAWR.AI can be custom-configured for any B2B or B2C sales operation.</p>
+          <button class="btn btn-primary btn-lg" onclick="CLAWR.navigate('signup')">Talk to Us →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── SCREEN 8: PRICING ─────────────────────────────────────── -->
+  <section id="screen-pricing" class="screen" role="main" aria-label="Pricing">
+    <div class="main-content">
+      <div class="page-container">
+        <div style="text-align:center;margin-bottom:3rem;padding-top:2rem">
+          <h2 style="margin-bottom:1rem">Simple, Honest Pricing</h2>
+          <p class="text-secondary">No setup fees. No per-seat charges. Just results.</p>
+          <div style="margin-top:1rem;display:inline-block;background:rgba(0,200,150,0.1);border:1px solid rgba(0,200,150,0.3);border-radius:var(--radius-full);padding:0.4rem 1.2rem;font-size:0.85rem;font-weight:700;color:var(--success)">
+            Used by teams replacing £240,000/year in sales headcount
+          </div>
+        </div>
+
+        <div class="pricing-grid" id="pricing-grid">
+          <!-- Populated by JS -->
+        </div>
+
+        <div style="text-align:center;margin-top:3rem">
+          <p class="text-secondary text-sm">All plans include: FCA-aware compliance settings · Multi-language · DocuSign integration · WhatsApp + Email + SMS channels · 99.9% uptime SLA</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── SCREEN 9: SIGNUP ──────────────────────────────────────── -->
+  <section id="screen-signup" class="screen" role="main" aria-label="Sign Up">
+    <div class="main-content">
+      <div style="max-width:560px;margin:0 auto;padding:2rem var(--space-lg)">
+
+        <div style="text-align:center;margin-bottom:2rem">
+          <div class="nav-logo" style="font-size:2rem;margin-bottom:0.5rem;display:flex;align-items:center;justify-content:center;gap:10px;">
+            <img src="icons/icon-96.svg" alt="" style="width:32px;height:32px;">
+            CLAWR<span class="dot">.</span>AI
+          </div>
+          <p class="text-secondary">Your AI agent will be live in 24 hours.</p>
+        </div>
+
+        <!-- Step indicator -->
+        <div class="step-indicator" role="list" aria-label="Signup progress">
+          <div class="step-item" role="listitem">
+            <div class="step-dot active" id="step-dot-1" aria-current="step">1</div>
+          </div>
+          <div class="step-line" id="step-line-1"></div>
+          <div class="step-item" role="listitem">
+            <div class="step-dot" id="step-dot-2">2</div>
+          </div>
+          <div class="step-line" id="step-line-2"></div>
+          <div class="step-item" role="listitem">
+            <div class="step-dot" id="step-dot-3">3</div>
+          </div>
+        </div>
+
+        <!-- Step 1: Business Details -->
+        <div class="step-content active" id="signup-step-1">
+          <div class="card">
+            <h3 style="margin-bottom:1.5rem">1️⃣ Business Details</h3>
+            <div class="form-group mb-md">
+              <label for="biz-name">Business Name</label>
+              <input type="text" id="biz-name" placeholder="e.g. Acme Capital Ltd" autocomplete="organization">
+            </div>
+            <div class="form-group mb-md">
+              <label for="biz-industry">Industry</label>
+              <select id="biz-industry">
+                <option value="">Select your industry</option>
+                <option>Financial Services</option>
+                <option>Legal</option>
+                <option>Property</option>
+                <option>Recruitment</option>
+                <option>SaaS</option>
+                <option>Retail / eCommerce</option>
+                <option>Healthcare</option>
+                <option>Education</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="form-group mb-md">
+              <label for="biz-size">Team Size</label>
+              <select id="biz-size">
+                <option value="">Select team size</option>
+                <option>Just me</option>
+                <option>2–10 people</option>
+                <option>11–50 people</option>
+                <option>51–200 people</option>
+                <option>200+ people</option>
+              </select>
+            </div>
+            <div class="form-group mb-lg">
+              <label for="biz-email">Work Email</label>
+              <input type="email" id="biz-email" placeholder="you@company.com" autocomplete="email">
+            </div>
+            <button class="btn btn-primary btn-full btn-lg" onclick="CLAWR.signupNext(1)">Continue →</button>
+          </div>
+        </div>
+
+        <!-- Step 2: Upload Document -->
+        <div class="step-content" id="signup-step-2">
+          <div class="card">
+            <h3 style="margin-bottom:0.5rem">2️⃣ Tell Your Agent What You Sell</h3>
+            <p class="text-sm text-secondary mb-lg">Upload one document — product sheet, brochure, service overview. Your agent will read it and know exactly what to say.</p>
+            <div class="drag-zone" id="signup-doc-zone" onclick="document.getElementById('signup-doc-input').click()">
+              <span class="drag-icon">📄</span>
+              <strong>Drop your document here</strong>
+              <div class="text-sm text-muted mt-sm">PDF, Word, or text — up to 20MB</div>
+            </div>
+            <input type="file" id="signup-doc-input" accept=".pdf,.doc,.docx,.txt" class="hidden" onchange="CLAWR.handleSignupDoc(event)">
+            <div id="signup-doc-preview" class="mt-md"></div>
+            <div class="flex gap-md mt-lg">
+              <button class="btn btn-secondary btn-md" onclick="CLAWR.signupBack(2)">← Back</button>
+              <button class="btn btn-primary btn-full btn-lg" onclick="CLAWR.signupNext(2)">Continue →</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3: Record Video -->
+        <div class="step-content" id="signup-step-3">
+          <div class="card">
+            <h3 style="margin-bottom:0.5rem">3️⃣ Clone Your Voice</h3>
+            <p class="text-sm text-secondary mb-lg">Record a 2-minute intro. Say who you are, what you do, and how you close deals. Your AI will clone your exact style.</p>
+
+            <div style="background:rgba(67,97,238,0.05);border:1px solid var(--border-accent);border-radius:var(--radius-md);padding:1rem;margin-bottom:1.5rem">
+              <div class="text-sm font-bold mb-sm">🎙️ Tips for best results:</div>
+              <ul style="list-style:none;font-size:0.8rem;color:var(--text-secondary);line-height:2">
+                <li>✅ Record in a quiet room</li>
+                <li>✅ Introduce yourself and your company</li>
+                <li>✅ Explain your core product / service</li>
+                <li>✅ Talk naturally — be yourself</li>
+                <li>✅ End with your typical closing pitch</li>
+              </ul>
+            </div>
+
+            <div class="flex gap-sm flex-wrap mb-lg">
+              <button class="btn btn-primary btn-md" style="flex:1" onclick="CLAWR.recordSignupVideo()">⏺ Record Now</button>
+              <button class="btn btn-secondary btn-md" style="flex:1" onclick="document.getElementById('signup-video-input').click()">📁 Upload Video</button>
+            </div>
+            <input type="file" id="signup-video-input" accept="video/*" class="hidden" onchange="CLAWR.handleSignupVideo(event)">
+            <div id="signup-video-preview" class="mb-lg"></div>
+
+            <div class="flex gap-md">
+              <button class="btn btn-secondary btn-md" onclick="CLAWR.signupBack(3)">← Back</button>
+              <button class="btn btn-orange btn-full btn-lg" onclick="CLAWR.signupComplete()">🚀 Launch My Agent →</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Complete -->
+        <div class="step-content" id="signup-complete" style="text-align:center">
+          <div style="margin-bottom:2rem">
+            <div style="font-size:4rem;animation:float 3s ease-in-out infinite">🚀</div>
+          </div>
+          <h2 class="gradient-text" style="margin-bottom:1rem">You're live in 24 hours.</h2>
+          <p class="text-secondary mb-xl">We're training your AI agent right now. You'll receive an email when it's ready to take calls, qualify leads, and close deals for you.</p>
+          <div style="background:var(--bg-card);border:1px solid var(--border-accent);border-radius:var(--radius-xl);padding:1.5rem;margin-bottom:2rem">
+            <div class="badge badge-training mb-md" style="margin:0 auto;display:inline-flex">⚙️ Training in Progress</div>
+            <div class="text-sm text-secondary">Your agent is being cloned and configured.<br>Estimated: <strong class="text-primary">23 hours 47 minutes</strong></div>
+          </div>
+          <button class="btn btn-primary btn-lg" onclick="CLAWR.navigate('dashboard')">Go to Dashboard →</button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── ABOUT / STRATEGIC NOTE ────────────────────────────────── -->
+  <section id="screen-about" class="screen" role="main" aria-label="About CLAWR.AI">
+    <div class="main-content">
+      <div class="page-container" style="max-width:800px;margin:0 auto">
+        <div style="text-align:center;padding:3rem 0 2rem">
+          <div class="nav-logo" style="font-size:2.5rem;margin-bottom:0.5rem;display:flex;align-items:center;justify-content:center;gap:12px;">
+            <img src="icons/icon-96.svg" alt="" style="width:40px;height:40px;">
+            CLAWR<span class="dot">.</span>AI
+          </div>
+          <p class="text-secondary">The AI Dealmaker Platform</p>
+        </div>
+
+        <div class="about-quote">
+          "CLAWR.AI is built by the same team behind Posfin Capital — the UK's fastest-growing AI-powered bridging finance broker. We automated our own deal machine first. Now we're selling the machine."
+        </div>
+
+        <div class="card mb-lg">
+          <h3 style="margin-bottom:1rem">Our Story</h3>
+          <p class="text-secondary mb-md">Posfin Capital processes hundreds of bridging finance applications each month. We were drowning in admin, missing leads, and losing deals to slower-moving brokers who happened to reply first.</p>
+          <p class="text-secondary mb-md">So we built CLAWR.AI internally — an AI agent that qualifies borrowers, generates term sheets, chases legal teams, and keeps brokers updated 24/7. The results were immediate.</p>
+          <p class="text-secondary">Pipeline conversion jumped. Response times dropped from hours to seconds. Our team focused on high-value decisions while the AI handled everything else. We realised every business in every vertical needs this.</p>
+        </div>
+
+        <div class="card mb-lg">
+          <h3 style="margin-bottom:1.5rem">Key Metrics</h3>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-label">Founded</div>
+              <div class="stat-value" style="font-size:1.2rem">2024</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Clients</div>
+              <div class="stat-value" style="font-size:1.2rem">10k+</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Countries</div>
+              <div class="stat-value" style="font-size:1.2rem">47</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Pipeline Managed</div>
+              <div class="stat-value" style="font-size:1.2rem">£2.4bn</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card mb-xl">
+          <h3 style="margin-bottom:1rem">Built On</h3>
+          <p class="text-secondary mb-md">Posfin Capital's AI infrastructure — battle-tested in regulated UK financial services. FCA-aware. GDPR-compliant. Enterprise-grade.</p>
+          <div class="flex gap-sm flex-wrap">
+            <span class="badge badge-live">FCA Aware</span>
+            <span class="badge badge-live">GDPR Compliant</span>
+            <span class="badge badge-live">ISO 27001 Ready</span>
+            <span class="badge badge-live">SOC 2 Ready</span>
+          </div>
+        </div>
+
+        <div style="text-align:center;margin-bottom:3rem">
+          <button class="btn btn-primary btn-xl" onclick="CLAWR.navigate('signup')">Start Your Free Trial →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /#app -->
+
+<!-- ═══════════════════════════════════════════════════════════
+     BOTTOM NAVIGATION (mobile)
+════════════════════════════════════════════════════════════ -->
+<nav id="bottom-nav" role="navigation" aria-label="Bottom navigation">
+  <button class="bottom-nav-item active" data-screen="home" onclick="CLAWR.navigate('home')" aria-label="Home">
+    <span class="nav-icon">🏠</span>
+    <span class="nav-label">Home</span>
+  </button>
+  <button class="bottom-nav-item" data-screen="dashboard" onclick="CLAWR.navigate('dashboard')" aria-label="Dashboard">
+    <span class="nav-icon">⚡</span>
+    <span class="nav-label">Dashboard</span>
+  </button>
+  <button class="bottom-nav-item" data-screen="pipeline" onclick="CLAWR.navigate('pipeline')" aria-label="Pipeline">
+    <span class="nav-icon">📊</span>
+    <span class="nav-label">Pipeline</span>
+  </button>
+  <button class="bottom-nav-item" data-screen="brain" onclick="CLAWR.navigate('brain')" aria-label="Agent">
+    <span class="nav-icon">🧠</span>
+    <span class="nav-label">Agent</span>
+  </button>
+  <button class="bottom-nav-item" data-screen="pricing" onclick="CLAWR.navigate('pricing')" aria-label="Pricing">
+    <span class="nav-icon">💎</span>
+    <span class="nav-label">Pricing</span>
+  </button>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════════
+     TOAST CONTAINER
+════════════════════════════════════════════════════════════ -->
+<div id="toast-container" role="alert" aria-live="polite"></div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     INSTALL BANNER
+════════════════════════════════════════════════════════════ -->
+<div id="install-banner" class="hidden" role="banner">
+  <div style="font-size:1.5rem">📲</div>
+  <div style="flex:1">
+    <div class="text-sm font-bold">Add CLAWR.AI to Home Screen</div>
+    <div class="text-xs text-muted">Install for the full app experience</div>
+  </div>
+  <button class="btn btn-primary btn-sm" id="install-btn">Install</button>
+  <button class="btn btn-ghost btn-sm" onclick="document.getElementById('install-banner').classList.add('hidden')">✕</button>
 </div>
 
-<section>
-<div class="section-label">The Pattern We Keep Seeing</div>
-<h2 class="section-title">We've Been Inside Thousands of Businesses. The Problems Are Always the Same.</h2>
-<p class="section-desc">After funding and advising SMEs across every sector, we know exactly where the money leaks are.</p>
-<div class="problem-grid">
-<div class="problem-card"><div class="icon">&#9201;</div><h3>Founder Doing Everything</h3><p>20 hours a week on tasks a machine handles in seconds. Your most expensive resource doing your cheapest work.</p></div>
-<div class="problem-card"><div class="icon">&#9888;</div><h3>Zero Automation</h3><p>Client onboarding, invoicing, follow-ups, reporting — all manual. Every manual process is a margin leak.</p></div>
-<div class="problem-card"><div class="icon">&#128200;</div><h3>Underpriced Services</h3><p>No competitive intelligence. No pricing analysis. Leaving 15-30% on the table because you haven't looked at the data.</p></div>
-<div class="problem-card"><div class="icon">&#128176;</div><h3>Bloated Overheads</h3><p>Headcount growing faster than revenue. Staff doing work that agents handle at a fraction of the cost.</p></div>
-<div class="problem-card"><div class="icon">&#128269;</div><h3>No Market Intelligence</h3><p>You don't know what your competitors charge, where your customers come from, or what market you're really in.</p></div>
-<div class="problem-card"><div class="icon">&#128274;</div><h3>Trapped Knowledge</h3><p>Everything in the founder's head. No systems. No documentation. The business can't run without you.</p></div>
-</div>
-</section>
+<!-- ═══════════════════════════════════════════════════════════
+     MODAL CONTAINER
+════════════════════════════════════════════════════════════ -->
+<div id="modal-container"></div>
 
-<section>
-<div class="section-label">What Clawr Deploys</div>
-<h2 class="section-title">AI Agents Built for Your Business. Not Off-the-Shelf. Not Theory.</h2>
-<p class="section-desc">Every agent we deploy is custom-configured to your operations, your data, your goals.</p>
-<div class="deploy-grid">
-<div class="deploy-card"><div class="number">01</div><h3>Operations Agent</h3><p>Automates client onboarding, invoice processing, follow-ups, scheduling, and internal reporting. Replaces 1-2 FTEs of manual work.</p><span class="tag">Efficiency</span></div>
-<div class="deploy-card"><div class="number">02</div><h3>Sales Intelligence Agent</h3><p>Qualifies leads, drafts proposals, analyses conversion data, and identifies your highest-value prospects automatically.</p><span class="tag">Revenue</span></div>
-<div class="deploy-card"><div class="number">03</div><h3>Market Research Agent</h3><p>Monitors competitors, tracks pricing, analyses market trends, and surfaces opportunities you'd never find manually.</p><span class="tag">Intelligence</span></div>
-<div class="deploy-card"><div class="number">04</div><h3>Growth Architect Agent</h3><p>Identifies untapped revenue channels, models pricing scenarios, analyses customer acquisition costs, and builds growth playbooks.</p><span class="tag">Growth</span></div>
-<div class="deploy-card"><div class="number">05</div><h3>Property Valuation Agent</h3><p>Pulls sold comparables, generates valuation narratives, surfaces area market statistics, and creates bespoke property assessment reports.</p><span class="tag">Asset Intelligence</span></div>
-<div class="deploy-card"><div class="number">06</div><h3>Content &amp; Comms Agent</h3><p>Generates marketing copy, social posts, email sequences, and client communications — all in your brand voice, all at scale.</p><span class="tag">Scale</span></div>
-</div>
-</section>
-
-<div class="growth-section">
-<div class="section-label">New: Growth Architect</div>
-<h2 class="section-title">Not Just Efficiency. Revenue You Didn't Know Existed.</h2>
-<p class="section-desc">Most AI consultancies stop at automation. We go further. The Growth Architect agent doesn't just save you money — it makes you money.</p>
-<div class="growth-features">
-<div class="growth-feat"><h4>Pricing Optimisation</h4><p>Analyses your pricing against market data and competitor positioning. Most businesses are undercharging by 15-25%.</p></div>
-<div class="growth-feat"><h4>Channel Discovery</h4><p>Identifies untapped acquisition channels, partnership opportunities, and market segments you haven't considered.</p></div>
-<div class="growth-feat"><h4>Revenue Modelling</h4><p>Builds scenario models showing exactly what happens when you pull different growth levers. Data, not guesswork.</p></div>
-<div class="growth-feat"><h4>Competitive Intelligence</h4><p>Continuous monitoring of competitor activity, pricing changes, market positioning, and customer sentiment.</p></div>
-</div>
-</div>
-
-<div class="case-study">
-<div class="section-label">Live Example: Property Intelligence Agent</div>
-<h2 class="section-title">What We Built for a Posfin Capital Borrower in 48 Hours</h2>
-<p class="section-desc">A property-secured borrower needed a valuation assessment. Our agent delivered a comprehensive report that would have taken a surveyor days.</p>
-<div class="case-metrics">
-<div class="case-metric"><div class="value">127</div><div class="desc">Sold Comparables Analysed</div></div>
-<div class="case-metric"><div class="value">3.2mi</div><div class="desc">Radius Covered</div></div>
-<div class="case-metric"><div class="value">48hrs</div><div class="desc">From Brief to Report</div></div>
-<div class="case-metric"><div class="value">85%</div><div class="desc">Cost Saving vs Surveyor</div></div>
-</div>
-</div>
-
-<section>
-<div class="section-label">How It Works</div>
-<h2 class="section-title">From Discovery Call to Deployed Agents in Days, Not Months.</h2>
-<div class="process-steps">
-<div class="process-step"><div class="step-num">01</div><h3>Discovery Call</h3><p>15 minutes. We interrogate your business — model, margins, pain points, goals. No fluff.</p></div>
-<div class="process-step"><div class="step-num">02</div><h3>AI Teaser</h3><p>Within 48 hours, you receive a bespoke presentation showing exactly what agents can do for your business. Free.</p></div>
-<div class="process-step"><div class="step-num">03</div><h3>Deep Dive Blueprint</h3><p>Full implementation plan. Workflows mapped. ROI modelled. Timeline built. Investment: &pound;1,000.</p></div>
-<div class="process-step"><div class="step-num">04</div><h3>Deploy &amp; Grip</h3><p>We build and deploy your agents. Retainer, project-based, or profit share. Your choice. Easy in, easy out.</p></div>
-</div>
-</section>
-
-<section id="qualify">
-<div class="form-section">
-<div class="section-label">Book Your Discovery Call</div>
-<h2 class="section-title">15 Minutes. No Pitch. Just Answers.</h2>
-<p class="section-desc">Answer a few questions so we can research your business before we speak. The sharper the intel, the sharper the call.</p>
-<form onsubmit="handleSubmit(event)">
-<div class="form-row"><div class="form-group"><label>Your Name</label><input type="text" name="name" placeholder="Full name" required></div><div class="form-group"><label>Business Name</label><input type="text" name="business" placeholder="Company name" required></div></div>
-<div class="form-row"><div class="form-group"><label>Email</label><input type="email" name="email" placeholder="you@business.com" required></div><div class="form-group"><label>Phone</label><input type="tel" name="phone" placeholder="Mobile preferred"></div></div>
-<div class="form-group"><label>Website URL <span class="hint">(so we can research you before the call)</span></label><input type="url" name="website" placeholder="https://yourbusiness.com"></div>
-<div class="form-row"><div class="form-group"><label>Annual Revenue Bracket</label><select name="revenue" required><option value="" disabled selected>Select range</option><option>Under &pound;250K</option><option>&pound;250K – &pound;500K</option><option>&pound;500K – &pound;1M</option><option>&pound;1M – &pound;3M</option><option>&pound;3M – &pound;10M</option><option>&pound;10M+</option></select></div><div class="form-group"><label>Team Size</label><select name="team_size" required><option value="" disabled selected>Select range</option><option>Just me</option><option>2 – 5</option><option>6 – 15</option><option>16 – 50</option><option>50+</option></select></div></div>
-<div class="form-group"><label>Sector / Industry</label><select name="sector" required><option value="" disabled selected>Select your sector</option><option>Professional Services</option><option>Construction / Trades</option><option>E-commerce / Retail</option><option>Property / Real Estate</option><option>Healthcare / Medical</option><option>Hospitality / F&amp;B</option><option>Manufacturing</option><option>Technology / SaaS</option><option>Marketing / Agency</option><option>Transport / Logistics</option><option>Education / Training</option><option>Other</option></select></div>
-<div class="form-group"><label>What's the single biggest challenge in your business right now?</label><textarea name="challenge" placeholder="Be specific. The more detail, the more value we deliver on the call." required></textarea></div>
-<div class="form-group"><label>What does your current tech stack look like? <span class="hint">(CRM, accounting, project management, etc.)</span></label><textarea name="tech_stack" placeholder="e.g. Xero, HubSpot, Monday.com, Slack..."></textarea></div>
-<div class="form-group"><label>How did you hear about Clawr.ai?</label><select name="source"><option value="" disabled selected>Select one</option><option>Facebook / Instagram Ad</option><option>LinkedIn</option><option>Google Search</option><option>Posfin Capital</option><option>Referral</option><option>Other</option></select></div>
-<button type="submit" class="submit-btn">Book My Discovery Call</button>
-<p class="form-note">15-minute call. No obligation. If AI can't help your business, we'll tell you.</p>
-</form>
-</div>
-</section>
-
-<footer>
-<div class="footer-brand">
-<div class="footer-logo"><img src="assets/CLAWR_Horizontal.svg" alt="CLAWR.AI"></div>
-</div>
-<p>AI agents that grip your business.</p>
-<p class="powered-by">Intelligence powered by <a href="https://posfincapital.com" target="_blank">Posfin Capital</a></p>
-</footer>
-
-<script>
-function handleSubmit(e){e.preventDefault();var f=e.target;var d=new FormData(f);var o=Object.fromEntries(d.entries());console.log('Lead captured:',o);f.innerHTML='<div style="text-align:center;padding:3rem 0;"><div style="font-family:Playfair Display,serif;font-size:2rem;font-weight:900;margin-bottom:1rem;">We\'re on it.</div><p style="color:var(--text-secondary);font-size:1rem;max-width:400px;margin:0 auto;">We\'re researching your business now. Expect a calendar invite within 24 hours for your 15-minute Discovery Call.</p><p style="color:var(--text-muted);font-size:0.85rem;margin-top:1.5rem;">In the meantime, make sure your website is up to date — we\'ll be looking at it.</p></div>';f.scrollIntoView({behavior:'smooth',block:'center'});}
-document.querySelectorAll('a[href^="#"]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();document.querySelector(this.getAttribute('href')).scrollIntoView({behavior:'smooth'});});});
-</script>
+<script src="app.js"></script>
 </body>
 </html>

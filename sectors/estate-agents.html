@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CLAWR.AI for Estate Agents</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:#0a0a0a; color:#fff; font-family:'Inter',system-ui,sans-serif; }
+.hero { min-height:90vh; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:40px 20px; background:linear-gradient(135deg,#0a0a0a 0%,#111827 100%); }
+.badge { background:rgba(99,102,241,.15); border:1px solid rgba(99,102,241,.3); color:#818cf8; padding:6px 16px; border-radius:20px; font-size:13px; margin-bottom:24px; display:inline-block; }
+h1 { font-size:clamp(36px,6vw,72px); font-weight:800; line-height:1.1; margin-bottom:20px; }
+h1 span { background:linear-gradient(135deg,#818cf8,#a78bfa); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+.sub { font-size:clamp(16px,2.5vw,22px); color:#9ca3af; max-width:600px; margin-bottom:40px; line-height:1.6; }
+.cta { background:linear-gradient(135deg,#6366f1,#8b5cf6); color:#fff; padding:16px 36px; border-radius:8px; font-size:18px; font-weight:600; text-decoration:none; display:inline-block; }
+.features { padding:80px 20px; max-width:1100px; margin:0 auto; }
+.features h2 { font-size:36px; font-weight:700; text-align:center; margin-bottom:16px; }
+.features .sub2 { text-align:center; color:#9ca3af; margin-bottom:60px; font-size:18px; }
+.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:24px; }
+.card { background:#111; border:1px solid #1f2937; border-radius:12px; padding:28px; }
+.card h3 { font-size:18px; margin-bottom:10px; color:#e5e7eb; }
+.card p { color:#6b7280; font-size:15px; line-height:1.6; }
+.demo { background:#111; border:1px solid #1f2937; border-radius:16px; padding:40px; margin:0 auto 80px; max-width:800px; }
+.demo h2 { font-size:28px; margin-bottom:24px; text-align:center; }
+.chat { background:#0a0a0a; border-radius:12px; padding:24px; }
+.msg { margin-bottom:16px; }
+.msg.user { text-align:right; }
+.bubble { display:inline-block; padding:12px 18px; border-radius:12px; font-size:15px; max-width:80%; }
+.user .bubble { background:#6366f1; color:#fff; }
+.ai .bubble { background:#1f2937; color:#e5e7eb; }
+.pricing { padding:80px 20px; text-align:center; background:#050505; }
+.pricing h2 { font-size:36px; font-weight:700; margin-bottom:16px; }
+.pricing .sub3 { color:#9ca3af; margin-bottom:60px; font-size:18px; }
+.plans { display:flex; gap:24px; justify-content:center; flex-wrap:wrap; }
+.plan { background:#111; border:1px solid #1f2937; border-radius:16px; padding:40px; width:300px; }
+.plan.featured { border-color:#6366f1; }
+.plan h3 { font-size:22px; margin-bottom:8px; }
+.plan .price { font-size:42px; font-weight:800; margin:16px 0 8px; }
+.plan .mo { font-size:16px; color:#6b7280; margin-bottom:24px; }
+.plan ul { list-style:none; text-align:left; }
+.plan ul li { padding:8px 0; color:#9ca3af; font-size:15px; border-bottom:1px solid #1f2937; }
+.plan ul li:before { content:"✓ "; color:#6366f1; }
+.plan-cta { display:block; margin-top:28px; background:#6366f1; color:#fff; padding:14px; border-radius:8px; text-decoration:none; font-weight:600; }
+footer { text-align:center; padding:40px; color:#374151; font-size:14px; }
+</style>
+</head>
+<body>
+<section class="hero">
+  <div class="badge">Pre-built for Estate Agents</div>
+  <h1>CLAWR.AI for<br><span>Estate Agents</span></h1>
+  <p class="sub">Handle every valuation lead, vendor call, and buyer enquiry — automatically. CLAWR is pre-configured for property sales the moment you sign up.</p>
+  <a href="mailto:hello@clawr.ai?subject=Demo request - Estate Agent" class="cta">Get Your Free Demo &rarr;</a>
+</section>
+
+<section class="features" style="padding-top:80px">
+  <h2>Already built for your business</h2>
+  <p class="sub2">Every workflow, every prompt, every automation &mdash; configured for Estate Agents before you sign up.</p>
+  <div class="grid">
+    
+    <div class="card">
+      <h3>{'feature': 'Valuation Lead Capture', 'description': 'AI qualifies every Rightmove, Zoopla, and website lead instantly — 24/7.'}</h3>
+      <p>Instantly qualify every inbound lead — 24 hours a day, 7 days a week.</p>
+    </div>
+    <div class="card">
+      <h3>{'feature': 'Automated Diary Booking', 'description': 'Books valuation appointments directly into your calendar without manual intervention.'}</h3>
+      <p>Eliminate manual follow-up with automated sequences that convert prospects.</p>
+    </div>
+    <div class="card">
+      <h3>{'feature': 'Vendor Progress Updates', 'description': "Weekly automated vendor reports — reduce 'where are we?' calls by 70%."}</h3>
+      <p>Your compliance reminders, reporting, and workflows — all handled.</p>
+    </div>
+    <div class="card">
+      <h3>{'feature': 'AML Compliance Assistant', 'description': 'Guides staff through AML checks and stores documentation securely.'}</h3>
+      <p>Free your team from admin so they can focus on what drives revenue.</p>
+    </div>
+    <div class="card">
+      <h3>{'feature': 'Social Media Content Generator', 'description': 'Creates daily property content for Facebook and Instagram automatically.'}</h3>
+      <p>Real-time dashboards and AI-generated reports for every client.</p>
+    </div>
+  </div>
+</section>
+
+<section style="padding:80px 20px; max-width:800px; margin:0 auto;">
+  <div class="demo">
+    <h2>See CLAWR in action</h2>
+    <div class="chat">
+      
+      <div class="msg user">
+        <div class="bubble">Hi, I saw your Rightmove listing for the 3-bed in Didsbury. Is it still available?</div>
+      </div>
+      <div class="msg ai">
+        <div class="bubble">Hi! Yes, it's still available — it's a stunning property. Could I take your name and best number to arrange a viewing?</div>
+      </div>
+      <div class="msg user">
+        <div class="bubble">It's Sarah. 07700 900123. I'm free this Saturday morning.</div>
+      </div>
+      <div class="msg ai">
+        <div class="bubble">Perfect, Sarah. I've booked you in for Saturday at 10am. You'll receive a confirmation shortly with the address and your agent's details. Looking forward to showing you around!</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing">
+  <h2>Simple, transparent pricing</h2>
+  <p class="sub3">Start with a one-time setup. Then a monthly subscription that pays for itself.</p>
+  <div class="plans">
+    <div class="plan">
+      <h3>Starter</h3>
+      <div class="price">&pound;997</div>
+      <div class="mo">one-time setup + &pound;197/month</div>
+      <ul>
+        <li>2 AI agents configured</li>
+        <li>Lead qualification agent</li>
+        <li>Follow-up automation</li>
+        <li>Training library access</li>
+        <li>Email support</li>
+      </ul>
+      <a href="mailto:hello@clawr.ai?subject=Starter - Estate Agent" class="plan-cta">Get Started</a>
+    </div>
+    <div class="plan featured">
+      <h3>Growth &#11088;</h3>
+      <div class="price">&pound;2,997</div>
+      <div class="mo">one-time setup + &pound;497/month</div>
+      <ul>
+        <li>5 AI agents &mdash; full funnel</li>
+        <li>Custom workflows for your team</li>
+        <li>CRM integration</li>
+        <li>Monthly review call</li>
+        <li>Priority support</li>
+      </ul>
+      <a href="mailto:hello@clawr.ai?subject=Growth - Estate Agent" class="plan-cta">Get Started</a>
+    </div>
+  </div>
+</section>
+
+<footer>&copy; 2026 CLAWR.AI &mdash; AI infrastructure for Estate Agents | <a href="mailto:hello@clawr.ai" style="color:#6366f1">hello@clawr.ai</a></footer>
+</body>
+</html>
