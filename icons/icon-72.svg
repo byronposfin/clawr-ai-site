@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" width="192" height="192">
+  <defs>
+    <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4361EE"/>
+      <stop offset="50%" stop-color="#7B5EA7"/>
+      <stop offset="100%" stop-color="#E79039"/>
+    </linearGradient>
+    <filter id="glow1">
+      <feGaussianBlur stdDeviation="3" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <!-- Background -->
+  <rect width="192" height="192" rx="36" fill="#0A0A0F"/>
+  <!-- Three talon slashes — each tapers to a sharp point at bottom -->
+  <g filter="url(#glow1)" fill="url(#g1)">
+    <!-- Left talon -->
+    <path d="M 52 36 C 46 72, 52 112, 60 156
+             C 70 112, 72 72, 70 36
+             Q 61 24, 52 36 Z"/>
+    <!-- Centre talon (slightly larger) -->
+    <path d="M 86 24 C 79 66, 87 112, 96 158
+             C 105 112, 113 66, 106 24
+             Q 96 12, 86 24 Z"/>
+    <!-- Right talon -->
+    <path d="M 122 36 C 120 72, 122 112, 132 156
+             C 140 112, 146 72, 140 36
+             Q 131 24, 122 36 Z"/>
+  </g>
+</svg>
