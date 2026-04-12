@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meet Kira — Clawr</title>
+<meta name="description" content="Meet your personal AI operator. 10 minutes that will change how you think about AI.">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --charcoal:#2C2C2C;
+  --warm-black:#1A1A1A;
+  --cream:#F5F0EB;
+  --warm-cream:#FAF7F2;
+  --accent:#B8860B;
+  --accent-light:#D4A843;
+  --muted:#8A8578;
+  --text-primary:#2C2C2C;
+  --text-secondary:#6B6560;
+}
+html{font-size:16px}
+body{font-family:'DM Sans',sans-serif;color:var(--text-primary);background:var(--warm-cream);min-height:100vh;-webkit-font-smoothing:antialiased;display:flex;flex-direction:column}
+h1,h2,h3{font-family:'Playfair Display',Georgia,serif;font-weight:600;letter-spacing:-0.02em}
+
+/* INTRO SCREEN */
+.intro{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:2rem;max-width:680px;margin:0 auto;animation:fadeIn 0.8s ease}
+.intro.hidden{display:none}
+.intro-logo{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;letter-spacing:0.05em;margin-bottom:3rem}
+.intro-logo span{color:var(--accent)}
+.intro h1{font-size:clamp(2.4rem,5vw,3.8rem);line-height:1.1;margin-bottom:1.5rem}
+.intro h1 em{font-style:italic;color:var(--accent)}
+.intro-lead{font-size:1.1rem;line-height:1.7;color:var(--text-secondary);margin-bottom:2rem;font-weight:300}
+.intro-meta{display:flex;gap:2rem;flex-wrap:wrap;margin:2rem 0;padding:1.5rem 0;border-top:1px solid rgba(184,134,11,0.15);border-bottom:1px solid rgba(184,134,11,0.15)}
+.intro-meta-item{display:flex;align-items:center;gap:0.5rem;font-size:0.85rem;color:var(--muted)}
+.intro-meta-item strong{color:var(--charcoal);font-weight:500}
+.intro-cta{background:var(--charcoal);color:var(--cream);padding:1.1rem 2.5rem;border-radius:100px;font-size:1rem;font-weight:500;border:none;cursor:pointer;transition:all 0.3s ease;font-family:'DM Sans',sans-serif;letter-spacing:0.03em;align-self:flex-start}
+.intro-cta:hover:not(:disabled){background:var(--accent);transform:translateY(-2px);box-shadow:0 8px 30px rgba(184,134,11,0.2)}
+.intro-cta:disabled{opacity:0.4;cursor:not-allowed}
+.intro-note{font-size:0.78rem;color:var(--muted);margin-top:1.5rem;line-height:1.6;font-style:italic}
+
+/* ACCESS CODE BADGE */
+.access-badge{display:inline-flex;align-items:center;gap:0.5rem;background:rgba(184,134,11,0.1);border:1px solid rgba(184,134,11,0.25);padding:0.4rem 0.9rem;border-radius:100px;font-size:0.75rem;color:var(--accent);letter-spacing:0.06em;font-weight:500;margin-bottom:1.5rem;text-transform:uppercase;width:fit-content}
+.access-badge::before{content:'';width:6px;height:6px;background:var(--accent);border-radius:50%}
+
+/* CONSENT BOX */
+.consent-box{background:white;padding:1.5rem;border-radius:12px;border-left:4px solid var(--accent);margin-bottom:2rem;box-shadow:0 4px 20px rgba(0,0,0,0.04)}
+.consent-box h3{font-family:'Playfair Display',serif;font-size:1.1rem;margin-bottom:0.75rem;color:var(--charcoal)}
+.consent-box p{font-size:0.9rem;color:var(--text-secondary);line-height:1.6;margin-bottom:0.75rem}
+.consent-check{display:flex;align-items:flex-start;gap:0.75rem;margin-top:1rem;cursor:pointer}
+.consent-check input[type="checkbox"]{margin-top:0.25rem;width:18px;height:18px;accent-color:var(--accent);cursor:pointer;flex-shrink:0}
+.consent-check-label{font-size:0.85rem;color:var(--charcoal);line-height:1.5;cursor:pointer;flex:1}
+
+/* NAME SCREEN */
+.name-screen{min-height:100vh;display:none;flex-direction:column;justify-content:center;padding:2rem;max-width:520px;margin:0 auto;animation:fadeIn 0.6s ease}
+.name-screen.active{display:flex}
+.name-screen h2{font-size:2rem;margin-bottom:0.75rem}
+.name-screen h2 em{font-style:italic;color:var(--accent)}
+.name-screen p{color:var(--text-secondary);margin-bottom:2rem;line-height:1.6;font-weight:300}
+.name-input-group{margin-bottom:1.5rem}
+.name-label{display:block;font-size:0.75rem;color:var(--muted);margin-bottom:0.5rem;letter-spacing:0.06em;text-transform:uppercase;font-weight:500}
+.name-input{width:100%;padding:1rem 1.25rem;border-radius:12px;border:1.5px solid rgba(44,44,44,0.12);background:white;font-size:1.1rem;font-family:'DM Sans',sans-serif;color:var(--charcoal);outline:none;transition:border-color 0.3s}
+.name-input:focus{border-color:var(--accent)}
+.name-suggestions{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:0.75rem}
+.name-chip{padding:0.45rem 1rem;border-radius:100px;border:1px solid rgba(44,44,44,0.15);background:transparent;color:var(--charcoal);font-size:0.85rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s}
+.name-chip:hover{border-color:var(--accent);color:var(--accent)}
+.name-cta{margin-top:1rem;background:var(--charcoal);color:var(--cream);padding:1rem 2rem;border-radius:100px;border:none;cursor:pointer;font-size:0.95rem;font-weight:500;font-family:'DM Sans',sans-serif;transition:all 0.3s}
+.name-cta:hover:not(:disabled){background:var(--accent)}
+.name-cta:disabled{opacity:0.4;cursor:not-allowed}
+
+/* CHAT SCREEN */
+.chat{display:none;flex-direction:column;height:100vh;max-width:680px;margin:0 auto;width:100%}
+.chat.active{display:flex}
+.chat-header{padding:1rem 1.5rem;border-bottom:1px solid rgba(184,134,11,0.15);background:var(--warm-cream);display:flex;align-items:center;gap:0.75rem}
+.chat-avatar{width:42px;height:42px;border-radius:50%;background:var(--charcoal);color:var(--cream);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:600}
+.chat-info{flex:1}
+.chat-name{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:600}
+.chat-status{font-size:0.72rem;color:var(--accent);display:flex;align-items:center;gap:0.4rem}
+.chat-status::before{content:'';width:6px;height:6px;background:var(--accent);border-radius:50%;animation:pulse 2s ease infinite}
+.chat-progress{font-size:0.7rem;color:var(--muted);background:rgba(184,134,11,0.08);padding:0.3rem 0.7rem;border-radius:100px}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+
+.messages{flex:1;overflow-y:auto;padding:1.5rem;display:flex;flex-direction:column;gap:1rem}
+.msg{animation:fadeUp 0.5s ease both;max-width:88%}
+.msg.kira{align-self:flex-start}
+.msg.user{align-self:flex-end}
+.msg-bubble{padding:1rem 1.25rem;border-radius:1.25rem;line-height:1.55;font-size:0.95rem}
+.msg.kira .msg-bubble{background:white;color:var(--charcoal);border-bottom-left-radius:0.35rem;box-shadow:0 2px 12px rgba(0,0,0,0.04)}
+.msg.user .msg-bubble{background:var(--charcoal);color:var(--cream);border-bottom-right-radius:0.35rem}
+.msg-time{font-size:0.65rem;color:var(--muted);margin-top:0.3rem;padding:0 0.25rem}
+.msg.user .msg-time{text-align:right}
+.typing{display:flex;gap:0.3rem;padding:1.1rem 1.25rem;background:white;border-radius:1.25rem;border-bottom-left-radius:0.35rem;align-self:flex-start;box-shadow:0 2px 12px rgba(0,0,0,0.04)}
+.typing-dot{width:7px;height:7px;background:var(--muted);border-radius:50%;animation:typing 1.4s ease infinite}
+.typing-dot:nth-child(2){animation-delay:0.2s}
+.typing-dot:nth-child(3){animation-delay:0.4s}
+@keyframes typing{0%,60%,100%{opacity:0.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-4px)}}
+
+.input-area{padding:1rem 1.5rem 1.5rem;border-top:1px solid rgba(184,134,11,0.15);background:var(--warm-cream)}
+.input-row{display:flex;gap:0.75rem;align-items:flex-end}
+.chat-input{flex:1;padding:0.85rem 1.25rem;border-radius:24px;border:1.5px solid rgba(44,44,44,0.12);background:white;font-family:'DM Sans',sans-serif;font-size:0.95rem;color:var(--charcoal);outline:none;resize:none;max-height:120px;line-height:1.4;transition:border-color 0.3s}
+.chat-input:focus{border-color:var(--accent)}
+.send-btn{width:44px;height:44px;border-radius:50%;background:var(--charcoal);color:var(--cream);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.3s;font-size:1.2rem}
+.send-btn:hover:not(:disabled){background:var(--accent)}
+.send-btn:disabled{opacity:0.4;cursor:not-allowed}
+
+/* ENDING SCREEN */
+.ending{display:none;min-height:100vh;flex-direction:column;justify-content:center;padding:2rem;max-width:680px;margin:0 auto;animation:fadeIn 0.8s ease}
+.ending.active{display:flex}
+.ending h2{font-size:2.4rem;margin-bottom:1rem}
+.ending h2 em{color:var(--accent);font-style:italic}
+.ending-lead{font-size:1.1rem;color:var(--text-secondary);margin-bottom:2rem;line-height:1.7;font-weight:300}
+.summary-box{background:white;padding:2rem;border-radius:1rem;border-left:4px solid var(--accent);margin-bottom:2rem;box-shadow:0 4px 20px rgba(0,0,0,0.04)}
+.summary-box h3{font-size:1.1rem;margin-bottom:1rem;color:var(--accent)}
+.summary-box p{font-size:0.95rem;color:var(--charcoal);line-height:1.7}
+.feedback-box{background:rgba(184,134,11,0.05);padding:1.5rem;border-radius:1rem;margin-bottom:1.5rem}
+.feedback-box label{display:block;font-size:0.85rem;color:var(--charcoal);font-weight:500;margin-bottom:0.75rem}
+.feedback-box textarea{width:100%;padding:1rem;border-radius:0.75rem;border:1px solid rgba(44,44,44,0.1);font-family:'DM Sans',sans-serif;font-size:0.9rem;color:var(--charcoal);resize:vertical;min-height:80px;background:white}
+.ending-actions{display:flex;gap:1rem;flex-wrap:wrap}
+.ending-cta{background:var(--charcoal);color:var(--cream);padding:1rem 2rem;border-radius:100px;border:none;cursor:pointer;font-size:0.95rem;font-weight:500;font-family:'DM Sans',sans-serif;transition:all 0.3s}
+.ending-cta:hover:not(:disabled){background:var(--accent)}
+.ending-cta:disabled{opacity:0.5;cursor:not-allowed}
+.ending-cta-outline{background:transparent;color:var(--charcoal);border:1.5px solid rgba(44,44,44,0.2)}
+.ending-cta-outline:hover{border-color:var(--accent);color:var(--accent)}
+.send-status{margin-top:1rem;font-size:0.85rem;padding:0.75rem 1rem;border-radius:8px;display:none}
+.send-status.success{display:block;background:rgba(107,142,107,0.1);color:#4a6b4a;border:1px solid rgba(107,142,107,0.25)}
+.send-status.error{display:block;background:rgba(168,84,68,0.08);color:#a85444;border:1px solid rgba(168,84,68,0.2)}
+.send-status.sending{display:block;background:rgba(184,134,11,0.08);color:var(--accent);border:1px solid rgba(184,134,11,0.2)}
+
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
+
+@media(max-width:640px){
+  .chat-header{padding:0.85rem 1rem}
+  .messages{padding:1rem}
+  .input-area{padding:0.85rem 1rem 1rem}
+  .intro,.name-screen,.ending{padding:1.5rem}
+}
+</style>
+</head>
+<body>
+
+<!-- INTRO SCREEN -->
+<section class="intro" id="intro">
+  <div class="intro-logo">CLAWR<span>.</span></div>
+  <div class="access-badge" id="accessBadge" style="display:none">Access code: <span id="accessCodeDisplay"></span></div>
+  <h1>Meet your<br><em>operator.</em></h1>
+  <p class="intro-lead">In the next 10 minutes, you're going to talk to Kira. Not a chatbot. Not an assistant. The beginning of a relationship with an AI that will know you, remember everything, and quietly handle the small stuff so you can be present for the big stuff.</p>
+  <p class="intro-lead">She'll ask you about your life — your work, your family, your fears, your ambitions — and by the end, she'll know you better than most people do.</p>
+
+  <div class="consent-box">
+    <h3>Before you start — a quick note on privacy</h3>
+    <p>This is a private beta. Byron is testing Clawr with a small group of people. To help improve the product, your responses from this session will be saved and reviewed by Byron personally.</p>
+    <p>You can ask to be deleted at any time by emailing <strong>byron@posfincapital.com</strong>. Your data is never shared with anyone else, never sold, never used for advertising.</p>
+    <label class="consent-check">
+      <input type="checkbox" id="consentCheck">
+      <span class="consent-check-label">I understand that my responses will be saved and reviewed by Byron to improve Clawr.</span>
+    </label>
+  </div>
+
+  <div class="intro-meta">
+    <div class="intro-meta-item">⏱️ <strong>10 minute preview</strong></div>
+    <div class="intro-meta-item">🔒 <strong>Private beta</strong></div>
+    <div class="intro-meta-item">💛 <strong>Built with care</strong></div>
+  </div>
+
+  <button class="intro-cta" id="beginBtn" disabled>Begin the brain dump →</button>
+  <p class="intro-note">By continuing, you consent to your responses being saved. You can request deletion any time.</p>
+</section>
+
+<!-- NAME SCREEN -->
+<section class="name-screen" id="nameScreen">
+  <h2>First, who are <em>you?</em></h2>
+  <p>Just your first name. And then pick a name for your operator, or stick with Kira.</p>
+
+  <div class="name-input-group">
+    <label class="name-label">Your name</label>
+    <input class="name-input" id="userName" type="text" placeholder="Sarah" maxlength="30" autocomplete="given-name">
+  </div>
+
+  <div class="name-input-group">
+    <label class="name-label">Your operator's name</label>
+    <input class="name-input" id="agentName" type="text" placeholder="Kira" maxlength="20" value="Kira">
+    <div class="name-suggestions">
+      <button class="name-chip" data-name="Kira">Kira</button>
+      <button class="name-chip" data-name="Wren">Wren</button>
+      <button class="name-chip" data-name="Thea">Thea</button>
+      <button class="name-chip" data-name="Esme">Esme</button>
+      <button class="name-chip" data-name="Atlas">Atlas</button>
+      <button class="name-chip" data-name="Marcus">Marcus</button>
+    </div>
+  </div>
+
+  <button class="name-cta" id="nameCta" disabled>Begin →</button>
+</section>
+
+<!-- CHAT SCREEN -->
+<section class="chat" id="chat">
+  <div class="chat-header">
+    <div class="chat-avatar" id="chatAvatar">K</div>
+    <div class="chat-info">
+      <div class="chat-name" id="chatName">Kira</div>
+      <div class="chat-status">online</div>
+    </div>
+    <div class="chat-progress" id="chatProgress">Stage 1 of 6</div>
+  </div>
+
+  <div class="messages" id="messages"></div>
+
+  <div class="input-area">
+    <div class="input-row">
+      <textarea class="chat-input" id="chatInput" placeholder="Type your reply..." rows="1"></textarea>
+      <button class="send-btn" id="sendBtn">→</button>
+    </div>
+  </div>
+</section>
+
+<!-- ENDING SCREEN -->
+<section class="ending" id="ending">
+  <h2>That's the <em>start.</em></h2>
+  <p class="ending-lead">In a real Clawr account, Kira would now have permanent memory of everything you just shared. She'd start your morning brief tomorrow. She'd remember your kids' names forever. She'd notice when you're off and ask gently. This was just 10 minutes — imagine 10 years.</p>
+
+  <div class="summary-box">
+    <h3>What I learned about you:</h3>
+    <p id="summaryText">Loading your brain dump summary...</p>
+  </div>
+
+  <div class="feedback-box">
+    <label>One question — did this feel like a chatbot, or did it feel like the start of something? (Be brutal — Byron is testing this with you.)</label>
+    <textarea id="feedbackInput" placeholder="Honest reaction here..."></textarea>
+  </div>
+
+  <div class="ending-actions">
+    <button class="ending-cta" id="submitBtn" onclick="submitFeedback()">Send to Byron</button>
+    <button class="ending-cta ending-cta-outline" onclick="restartDemo()">Start over</button>
+  </div>
+  <div class="send-status" id="sendStatus"></div>
+</section>
+
+<script>
+// ════════════════════════════════════════════════════════
+// CLAWR BRAIN DUMP — PRODUCTION (clawr.ai/kira)
+// Captures URL access code, posts to /api/submit
+// Falls back to localStorage if backend unreachable
+// ════════════════════════════════════════════════════════
+
+const BACKEND_URL = '/api/submit';
+
+// Capture access code from URL ?code=xxx
+const urlParams = new URLSearchParams(window.location.search);
+const ACCESS_CODE = urlParams.get('code') || 'direct';
+
+// Show access code badge if it's not a direct visit
+if (ACCESS_CODE !== 'direct') {
+  document.getElementById('accessBadge').style.display = 'inline-flex';
+  document.getElementById('accessCodeDisplay').textContent = ACCESS_CODE;
+}
+
+const state = {
+  accessCode: ACCESS_CODE,
+  userName: '',
+  agentName: 'Kira',
+  stage: 0,
+  messages: [],
+  facts: {},
+  startTime: null,
+};
+
+const STAGES = [
+  {
+    name: 'The Welcome',
+    questions: [
+      "Hi {user}. I'm {agent}. I'm so glad you're here. Before we dive in — how's your day actually going? Honestly. One word, one paragraph, anything in between.",
+    ]
+  },
+  {
+    name: 'The Basics',
+    questions: [
+      "Thanks for that. Tell me a bit about you — what do you do, and where are you in life right now? Married? Kids? Just yourself? Whatever feels right to share.",
+      "And what time do you normally wake up and go to bed? I'm asking because if we work together properly, your morning brief lands when you actually want it — not at some default time."
+    ]
+  },
+  {
+    name: 'The People',
+    questions: [
+      "Now the important bit — who are the people in your life that matter most? Tell me about them. Family, friends, anyone who's a regular part of your week. Names and one thing you'd want me to know about each.",
+      "Anyone you're worried about? An aging parent, a friend going through something, a kid who's struggling? You don't have to share details — I just want to know what's on your mind."
+    ]
+  },
+  {
+    name: 'The Work',
+    questions: [
+      "Tell me about work. Do you love it, tolerate it, or wish you were doing something completely different? No judgement here — just trying to understand the shape of your week.",
+      "What's the one thing about your work that consistently drains you? And what's the one thing that gives you energy when it goes well?"
+    ]
+  },
+  {
+    name: 'The Inner Life',
+    questions: [
+      "Okay, going slightly deeper. What do you actually enjoy doing when no one's watching? Not the things you say you should do — the things that genuinely make you feel like yourself.",
+      "If you could wave a wand and change one thing about your daily routine — what would it be? Be specific."
+    ]
+  },
+  {
+    name: 'The Ambitions',
+    questions: [
+      "Last bit — where do you want to be in 5 years? Don't overthink it. What's the version of your life that would feel like winning?",
+      "And is there a side of you that's been quietly neglected — a project, an idea, a relationship — that you'd want me to gently nudge you back toward?"
+    ]
+  }
+];
+
+const $ = id => document.getElementById(id);
+const intro = $('intro');
+const nameScreen = $('nameScreen');
+const chat = $('chat');
+const ending = $('ending');
+const messages = $('messages');
+const chatInput = $('chatInput');
+const sendBtn = $('sendBtn');
+
+// Consent gate
+$('consentCheck').addEventListener('change', (e) => {
+  $('beginBtn').disabled = !e.target.checked;
+});
+
+// Intro → Name
+$('beginBtn').addEventListener('click', () => {
+  if (!$('consentCheck').checked) return;
+  intro.classList.add('hidden');
+  nameScreen.classList.add('active');
+  $('userName').focus();
+});
+
+// Name validation
+$('userName').addEventListener('input', validateName);
+$('agentName').addEventListener('input', validateName);
+function validateName() {
+  const u = $('userName').value.trim();
+  const a = $('agentName').value.trim();
+  $('nameCta').disabled = !(u && a);
+}
+
+// Name chips
+document.querySelectorAll('.name-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    $('agentName').value = chip.dataset.name;
+    validateName();
+  });
+});
+
+// Name → Chat
+$('nameCta').addEventListener('click', () => {
+  state.userName = $('userName').value.trim();
+  state.agentName = $('agentName').value.trim() || 'Kira';
+  state.startTime = Date.now();
+
+  $('chatName').textContent = state.agentName;
+  $('chatAvatar').textContent = state.agentName[0].toUpperCase();
+
+  nameScreen.classList.remove('active');
+  chat.classList.add('active');
+
+  setTimeout(() => askNextQuestion(), 800);
+});
+
+let currentStage = 0;
+let currentQuestion = 0;
+let awaitingAnswer = false;
+
+function askNextQuestion() {
+  if (currentStage >= STAGES.length) {
+    finishConversation();
+    return;
+  }
+
+  const stage = STAGES[currentStage];
+  const question = stage.questions[currentQuestion];
+
+  $('chatProgress').textContent = `Stage ${currentStage + 1} of ${STAGES.length}`;
+
+  const personalisedQuestion = question
+    .replace(/\{user\}/g, state.userName)
+    .replace(/\{agent\}/g, state.agentName);
+
+  showTyping();
+  setTimeout(() => {
+    hideTyping();
+    addMessage('kira', personalisedQuestion);
+    awaitingAnswer = true;
+  }, 1200 + Math.random() * 800);
+}
+
+function handleUserResponse(text) {
+  if (!text.trim()) return;
+
+  addMessage('user', text);
+  state.facts[`stage${currentStage}_q${currentQuestion}`] = text;
+  awaitingAnswer = false;
+
+  currentQuestion++;
+  if (currentQuestion >= STAGES[currentStage].questions.length) {
+    currentStage++;
+    currentQuestion = 0;
+
+    if (currentStage < STAGES.length) {
+      showTyping();
+      setTimeout(() => {
+        hideTyping();
+        const acks = [
+          "Thank you. That helps me understand you better.",
+          "Got it. I'm building a picture of you.",
+          "Noted — and I'll remember all of this.",
+          "That's really helpful. Thank you for trusting me with that.",
+        ];
+        addMessage('kira', acks[Math.floor(Math.random() * acks.length)]);
+        setTimeout(() => askNextQuestion(), 1000);
+      }, 900);
+      return;
+    }
+  }
+
+  setTimeout(() => askNextQuestion(), 600);
+}
+
+function addMessage(sender, text) {
+  const msg = document.createElement('div');
+  msg.className = `msg ${sender}`;
+
+  const time = new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+  msg.innerHTML = `
+    <div class="msg-bubble">${escapeHtml(text)}</div>
+    <div class="msg-time">${time}</div>
+  `;
+
+  messages.appendChild(msg);
+  messages.scrollTop = messages.scrollHeight;
+  state.messages.push({ sender, text, time });
+}
+
+function showTyping() {
+  const t = document.createElement('div');
+  t.className = 'typing';
+  t.id = 'typingIndicator';
+  t.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+  messages.appendChild(t);
+  messages.scrollTop = messages.scrollHeight;
+}
+
+function hideTyping() {
+  const t = $('typingIndicator');
+  if (t) t.remove();
+}
+
+function escapeHtml(s) {
+  const div = document.createElement('div');
+  div.textContent = s;
+  return div.innerHTML;
+}
+
+sendBtn.addEventListener('click', () => {
+  if (!awaitingAnswer) return;
+  const text = chatInput.value.trim();
+  if (text) {
+    handleUserResponse(text);
+    chatInput.value = '';
+    chatInput.style.height = 'auto';
+  }
+});
+
+chatInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendBtn.click();
+  }
+});
+
+chatInput.addEventListener('input', () => {
+  chatInput.style.height = 'auto';
+  chatInput.style.height = Math.min(chatInput.scrollHeight, 120) + 'px';
+});
+
+function finishConversation() {
+  showTyping();
+  setTimeout(() => {
+    hideTyping();
+    addMessage('kira', `Okay ${state.userName}, that's a lot. Thank you. In a real Clawr account, I'd remember all of this forever. I'd never share it with anyone. I'd use it to be useful to you, not to sell you things. And I'd check in with you every few months to see if anything's changed.`);
+    setTimeout(() => {
+      addMessage('kira', `For now — this is just a preview. Click below to see what I'd be working with.`);
+      setTimeout(() => {
+        chat.classList.remove('active');
+        ending.classList.add('active');
+        generateSummary();
+      }, 2000);
+    }, 1500);
+  }, 1200);
+}
+
+function generateSummary() {
+  const facts = Object.values(state.facts);
+  const summary = `Over ${Math.round((Date.now() - state.startTime) / 60000)} minutes, you shared ${facts.length} pieces of context with me. You told me about your life, the people who matter to you, your work, what gives you energy, what drains you, and where you want to go. In a real Clawr account, I'd already be drafting tomorrow's morning brief based on what you've shared. I'd know which name to use, which tone fits, and what's actually weighing on you. This 10 minutes was just the foundation — the relationship starts now.`;
+  $('summaryText').textContent = summary;
+}
+
+// ════════════════════════════════════════════════════════
+// BACKEND SUBMISSION — with graceful fallback
+// ════════════════════════════════════════════════════════
+async function submitFeedback() {
+  const feedback = $('feedbackInput').value.trim();
+  if (!feedback) {
+    alert('Please share your honest reaction first.');
+    return;
+  }
+
+  const submission = {
+    accessCode: state.accessCode,
+    userName: state.userName,
+    agentName: state.agentName,
+    timestamp: new Date().toISOString(),
+    duration: Math.round((Date.now() - state.startTime) / 60000),
+    facts: state.facts,
+    feedback: feedback,
+    fullConversation: state.messages,
+    userAgent: navigator.userAgent,
+    referrer: document.referrer || 'direct',
+  };
+
+  const statusEl = $('sendStatus');
+  statusEl.className = 'send-status sending';
+  statusEl.textContent = 'Sending your feedback to Byron...';
+
+  // Save to localStorage as safety net
+  try {
+    const existing = JSON.parse(localStorage.getItem('clawr_feedback') || '[]');
+    existing.push(submission);
+    localStorage.setItem('clawr_feedback', JSON.stringify(existing));
+  } catch (e) { /* ignore storage errors */ }
+
+  // Send to backend
+  try {
+    const response = await fetch(BACKEND_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(submission),
+    });
+
+    if (response.ok) {
+      statusEl.className = 'send-status success';
+      statusEl.innerHTML = `✓ Thank you ${state.userName}. Your feedback has been sent. Byron will review it soon.`;
+      $('feedbackInput').disabled = true;
+      $('submitBtn').disabled = true;
+    } else {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.error || 'Backend returned error');
+    }
+  } catch (err) {
+    statusEl.className = 'send-status error';
+    statusEl.innerHTML = `⚠ Couldn't reach the server right now, but your feedback has been saved locally. Please screenshot this page and send to byron@posfincapital.com.`;
+    console.error('Submission error:', err);
+  }
+}
+
+function restartDemo() {
+  if (confirm('Start over from the beginning?')) {
+    location.reload();
+  }
+}
+</script>
+</body>
+</html>
