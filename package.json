@@ -1,0 +1,13 @@
+{
+  "name": "clawr-ai-site",
+  "version": "1.0.0",
+  "description": "CLAWR.AI landing page and pilot",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "googleapis": "^144.0.0"
+  },
+  "engines": {
+    "node": ">=18.x"
+  }
+}
